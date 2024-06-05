@@ -31,20 +31,20 @@
             </NuxtLink>
         </div>
         <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal px-1">
+            <ul class="menu menu-horizontal px-1 gap-2 align-bottom">
+                <li>
+                    <NuxtLink to="/info">
+                        <Icon name="ph:info-fill" /> Infos
+                    </NuxtLink>
+                </li>
                 <li>
                     <SearchBull @search="handleSearch" />
                 </li>
                 <li>
-                    <details>
-                        <summary>Parent</summary>
-                        <ul class="p-2">
-                            <li><a>Submenu 1</a></li>
-                            <li><a>Submenu 2</a></li>
-                        </ul>
-                    </details>
+                    <a href="https://github.com/DreamCloud-Development/moods.js">
+                        <Icon name="ph:github-logo-fill" /> Code
+                    </a>
                 </li>
-                <li><a>Item 3</a></li>
             </ul>
         </div>
         <div class="navbar-end">
