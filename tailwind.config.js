@@ -10,9 +10,19 @@ export default {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ['Lexend', 'sans-serif'],
+      serif: ['Lexend', 'serif'],
+    },
   },
   plugins: [
     require('daisyui'),
   ],
+
+  daisyui: {
+    themes: true,
+    darkTheme: "dark",
+    logs: false, 
+  },
 }
 
