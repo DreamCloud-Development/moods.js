@@ -20,9 +20,10 @@ export default {
   ],
 
   daisyui: {
-    themes: true,
-    darkTheme: "dark",
+    themes: ['cupcake', 'coffee'],
+    darkTheme: "coffee",
     logs: false, 
   },
+  darkMode: ['class', '[data-theme="coffee"]']
 }
 
