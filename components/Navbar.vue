@@ -2,7 +2,7 @@
     <div class="navbar bg-base-300 border-b-2 border-primary-content">
         <div class="navbar-start">
             <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden rounded-md">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -23,16 +23,18 @@
                     <li><a>Item 3</a></li>
                 </ul>
             </div>
-            <a class="btn btn-ghost text-xl font-black gap-px">
+            <NuxtLink to="/" class="btn btn-ghost text-xl font-black gap-px rounded-md">
                 M
                 <Icon name="ph:leaf-fill" />
                 <Icon name="ph:fire-fill" />
                 D
-            </a>
+            </NuxtLink>
         </div>
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
-                <li><a>Item 1</a></li>
+                <li>
+                    <SearchBull @search="handleSearch" />
+                </li>
                 <li>
                     <details>
                         <summary>Parent</summary>
