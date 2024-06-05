@@ -1,8 +1,8 @@
 <template>
-    <div class="navbar bg-base-100">
+    <div class="navbar bg-base-300 border-b-2 border-primary-content">
         <div class="navbar-start">
             <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden rounded-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -11,7 +11,8 @@
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Item 1</a></li>
+                    <li><a>Test</a>
+                    </li>
                     <li>
                         <a>Parent</a>
                         <ul class="p-2">
@@ -22,7 +23,12 @@
                     <li><a>Item 3</a></li>
                 </ul>
             </div>
-            <a class="btn btn-ghost text-xl">daisyUI</a>
+            <a class="btn btn-ghost text-xl font-black gap-px">
+                M
+                <Icon name="ph:leaf-fill" />
+                <Icon name="ph:fire-fill" />
+                D
+            </a>
         </div>
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
