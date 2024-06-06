@@ -38,7 +38,7 @@
                     </NuxtLink>
                 </li>
                 <li>
-                    <SearchBull @search="handleSearch" />
+                    <SearchBull />
                 </li>
                 <li>
                     <a href="https://github.com/DreamCloud-Development/moods.js">
