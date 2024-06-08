@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { state, getPlaylist, addTrackToPlaylist, setPlaylistIndex } from '~/stores/playlist'
 
-let audio = ref(null)
+let audioPlayer = ref(null)
 
 const playlist = computed({
     get: () => state.playlist,
@@ -23,9 +23,25 @@ const handleAddToPlaylist = (trackId) => {
 
     if (state.playlistIndex === -1) {
         setPlaylistIndex(0);
-        audio = new Audio('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + state.playlist[state.playlistIndex] + '/stream');
-        audio.play();
-        console.log(audio)
+        audioPlayer = new Audio('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + state.playlist[state.playlistIndex] + '/stream');
+        audioPlayer.addEventListener('ended', handleNextTrack);
+        audioPlayer.play();
+        console.log(audioPlayer)
+    }
+}
+
+const handleNextTrack = () => {
+    const currentIndex = state.playlistIndex;
+    const nextIndex = currentIndex + 1;
+
+    if (nextIndex < playlist.value.length) {
+        setPlaylistIndex(nextIndex);
+        audioPlayer = new Audio('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + state.playlist[state.playlistIndex] + '/stream');
+        audioPlayer.addEventListener('ended', handleNextTrack);
+        audioPlayer.play();
+        console.log(audioPlayer)
+    } else {
+        console.log('Reached the end of the playlist');
     }
 }
 </script>

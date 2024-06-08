@@ -2,6 +2,7 @@
   <div>
     <Navbar />
     <NuxtPage />
+    <ControlBar />
   </div>
 </template>
 

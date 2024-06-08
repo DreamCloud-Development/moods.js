@@ -34,7 +34,7 @@
                 </figure>
             </div>
         </div>
-        <p class="text-lg text-center">Icon Lib:
+        <p class="text-lg text-center mb-32">Icon Lib:
             <br>
             <Icon name="streamline:song-recommendation-solid" />
             <br>
