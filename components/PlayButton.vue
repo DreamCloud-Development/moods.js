@@ -1,32 +1,37 @@
-<template>
-    <a class="btn btn-primary" @click="addToPlaylist(trackId)">
-        <Icon name="ph:play-fill" />
-        {{ trackId }}
-    </a>
-</template>
+<script lang="ts" setup>
+import { state, getPlaylist, addTrackToPlaylist, setPlaylistIndex } from '~/stores/playlist'
 
+let audio = ref(null)
 
-<script>
-export default {
-    props: {
-        trackId: {
-            type: String,
-            required: true
-        }
-    },
-    methods: {
-        addToPlaylist() {
-            if (!this.playlist) {
-                this.playlist = [];
-            }
-            this.playlist.push('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + this.trackId + '/stream');
-            if (!this.currentPlaying) {
-                this.currentPlaying = 0;
-                this.audio = new Audio(this.playlist[this.currentPlaying]);
-                this.audio.play();
-            }
-        }
+const playlist = computed({
+    get: () => state.playlist,
+    set: value => addTrackToPlaylist(value),
+})
+
+const index = computed({
+    get: () => state.playlistIndex,
+    set: value => setPlaylistIndex(value),
+})
+
+const props = defineProps<{
+    trackId: string;
+}>();
+
+const handleAddToPlaylist = (trackId) => {
+    addTrackToPlaylist(trackId);
+    console.log(state.playlist, state.playlistIndex)
+
+    if (state.playlistIndex === -1) {
+        setPlaylistIndex(0);
+        audio = new Audio('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + state.playlist[state.playlistIndex] + '/stream');
+        audio.play();
+        console.log(audio)
     }
 }
 </script>
- 
+
+<template>
+    <a class="btn btn-primary" @click="handleAddToPlaylist(trackId)">
+        <Icon name="ph:play-fill" />
+    </a>
+</template>
