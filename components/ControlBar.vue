@@ -85,10 +85,10 @@ const handleNextTrack = () => {
 }
 
 const playPauseButton = () => {
-    if (isPlaying.value) {
-        audioPlayer.pause();
-    } else {
+    if (audioPlayer.paused) {
         audioPlayer.play();
+    } else {
+        audioPlayer.pause();
     }
     isPlaying.value = !isPlaying.value;
 }
@@ -117,7 +117,6 @@ const redoTrack = () => {
 </script>
 
 <template>
-    <p></p>
     <div v-if="state.playlistIndex != -1">
         <div
             class="fixed bottom-0 left-0 z-50 grid w-full h-24 grid-cols-1 px-4 bg-base-300 border-t-2 border-primary-content md:grid-cols-3">

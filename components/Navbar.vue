@@ -41,16 +41,16 @@
                     <SearchBull />
                 </li>
                 <li>
-                    <a href="https://github.com/DreamCloud-Development/moods.js">
+                    <a href="https://github.com/DreamCloud-Development/moods.js" target="_blank">
                         <Icon name="ph:github-logo-fill" /> Code
                     </a>
                 </li>
             </ul>
         </div>
-        <div class="navbar-center flex lg:hidden">
-            <SearchBull />
-        </div>
         <div class="navbar-end">
+            <div class="flex lg:hidden mr-2">
+                <SearchBull />
+            </div>
             <ThemeDropdown />
         </div>
     </div>

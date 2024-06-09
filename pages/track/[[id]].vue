@@ -18,7 +18,8 @@ const { data: trackData } = await useFetch('https://discovery-au-02.audius.openp
         <h2 class="absolute bottom-3 left-44 text-md lg:text-xl glass p-1 rounded-lg">
             {{ trackData.data.play_count }} Listenings - {{ trackData.data.favorite_count }} Likes
         </h2>
-        <h3 class="absolute bottom-2 right-2 text-sm lg:text-md bg-primary p-1 rounded-lg">
+        <h3
+            class="absolute bottom-64 lg:bottom-2 right-1 lg:right-2 text-sm lg:text-md bg-primary p-1 rounded-lg text-primary-content">
             <Icon name="streamline:sign-hashtag-solid" /> {{ trackData.data.id }}
         </h3>
     </div>

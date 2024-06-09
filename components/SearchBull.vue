@@ -1,9 +1,11 @@
 <template>
-    <label class="input input-sm input-bordered flex items-center gap-1">
-        <Icon name="ph:magnifying-glass-bold" />
-        <input type="text" v-model="searchTerm" @keyup.enter="handleSubmit" placeholder="Search..."
-            class="placeholder:text-base-content" />
-    </label>
+    <form @submit.prevent="handleSubmit" class="p-0">
+        <label class="input input-sm input-bordered flex items-center gap-1">
+            <Icon name="ph:magnifying-glass-bold" />
+            <input type="text" v-model="searchTerm"
+                placeholder="Search..." class="placeholder:text-base-content" />
+        </label>
+    </form>
 </template>
 
 <script>
