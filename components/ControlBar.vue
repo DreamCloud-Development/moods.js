@@ -20,7 +20,7 @@ const index = computed({
     set: value => setPlaylistIndex(value),
 })
 
-const getTrackData = (trackId: string, arg: string) => {
+const getTrackData = (trackId: string) => {
     fetch('https://audius-discovery-6.cultur3stake.com/v1/tracks/' + trackId + '?app_name=MOODS-TM',
         {
             method: 'GET',
@@ -125,11 +125,15 @@ const redoTrack = () => {
                 <img class="h-12 me-3 rounded" :src="trackData.artwork['480x480']" alt="Song's Artwork">
                 <div class="inline-block leading-none">
                     <span class="text-sm">
+                        <NuxtLink :to="'/track/' + trackData.id">
                         <Icon name="ph:music-note-fill" /> {{ trackData.title }}
+                        </NuxtLink> 
                     </span>
                     <br>
                     <span class="text-sm">
+                        <NuxtLink :to="'/user/' + trackData.user.handle">
                         <Icon name="ph:person-fill" /> {{ trackData.user.name }}
+                        </NuxtLink>
                     </span>
                 </div>
             </div>
@@ -252,7 +256,7 @@ const redoTrack = () => {
 
                 <button data-tooltip-target="tooltip-volume" type="button"
                     class="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                    <Icon name="streamline:play-list-5-solid" class="text-warning" />
+                    <Icon name="ph:playlist-bold" class="text-warning" />
                     {{ playlist.length }}
                     <span class="sr-only">Open Queue</span>
                 </button>

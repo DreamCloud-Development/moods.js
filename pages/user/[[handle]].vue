@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const { data: requestData } = await useFetch('https://discovery-au-02.audius.openplayer.org/v1/users/handle/' + route.params.handle + '?app_name=MOODS-TM')
-
+const { data: artistData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/tracks?app_name=MOODS-TM&limit=1000')
 </script>
 
 <template>
@@ -23,9 +23,12 @@ const { data: requestData } = await useFetch('https://discovery-au-02.audius.ope
             <Icon name="streamline:sign-hashtag-solid" /> {{ requestData.data.id }}
         </h3>
     </div>
-    <div class="card m-8">
-        <h2 class="card-title">Bio</h2>
-        <p> {{ requestData.data.bio }}</p>
-        <h2 class="card-title mt-4">Tracks</h2>
+    <div class="card my-8">
+        <h2 class="card-title mx-12">Bio</h2>
+        <p v-html="requestData.data.bio" class="mx-12" style="white-space: pre;"></p>
+        <h2 class=" card-title mt-4 mx-12">Tracks</h2>
+        <p v-for="(track, index) in artistData.data">
+            <SongCard :trackParsedData="artistData.data[index]" />
+        </p>
     </div>
 </template>

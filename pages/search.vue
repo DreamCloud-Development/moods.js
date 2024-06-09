@@ -7,7 +7,7 @@
         <div v-for="track in tracks">
             <SongCard :trackParsedData=track />
         </div>
-        <p class="text-lg text-center mb-32">Icon Lib:
+        <!--p class="text-lg text-center mb-32">Icon Lib:
             <br>
             <Icon name="streamline:song-recommendation-solid" />
             <br>
@@ -15,7 +15,7 @@
             <br>
             <Icon name="ph:playlist-bold" />
             <br>
-        </p>
+        </p-->
     </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         async fetchTracks() {
-            const { data } = await useFetch(`https://blockdaemon-audius-discovery-03.bdnodes.net/v1/tracks/search?query=${this.$route.query.query}`)
+            const { data } = await useFetch(`https://blockdaemon-audius-discovery-03.bdnodes.net/v1/tracks/search?query=${this.$route.query.query}&limit=100`)
             this.tracks = data.value.data 
         }
     },
