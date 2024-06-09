@@ -48,6 +48,6 @@
             And for now, there is only one frontend website to host. So we can host it easely on a small server, whith a
             bit of help from your donations :)
         </p>
-        <NuxtLink class="btn btn-primary mt-4" to="/auth">Back to da home page</NuxtLink>
+        <NuxtLink class="btn btn-primary mt-4" to="/">Back to da home page</NuxtLink>
     </div>
 </template>

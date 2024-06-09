@@ -29,10 +29,24 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     props: {
-        trackParsedData: Object,
+        id: String,
+    },
+    created() {
+        this.fetchTracks(this.id as string)
+    },
+    data() {
+        return {
+            trackParsedData: []
+        }
+    },
+    methods: {
+        async fetchTracks(trackId: string) {
+            const { data: trackData } = await useFetch('https://discovery-au-02.audius.openplayer.org/v1/tracks/' + trackId + '?app_name=MOODS-TM')
+            this.trackParsedData = trackData.value.data
+        }
     }
 };
 </script>

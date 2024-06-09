@@ -5,34 +5,7 @@
             Search results for: {{ $route.query.query }}
         </h1>
         <div v-for="track in tracks">
-            <div class="card card-side bg-base-300 border-2 border-primary-content mx-2 lg:mx-10 mt-2">
-                <figure>
-                    <img class="h-32 w-32 rounded-l-none" :src="track.artwork['480x480']" alt="Cover Image" />
-                </figure>
-                <div class="card-body">
-                    <h2 class="card-title">{{ track.title }}</h2>
-                    <p>
-                        <Icon name="ph:person-fill" />
-                        {{ track.user.name }}
-                        <span class="font-black"> - </span>
-                        <Icon name="ph:disc-fill" />
-                        {{ track.genre }}
-                        <span class="font-black"> - </span>
-                        <Icon name="ph:clock-fill" />
-                        {{ new Date(track.duration * 1000).toISOString().substring(14, 19) }}
-                        <span class="font-black"> - </span>
-                        <Icon name="ph:play-fill" />
-                        {{ track.play_count }} Ecoutes
-                    </p>
-                </div>
-                <figure class="mr-8">
-                    <!--a class="btn btn-primary" target="_blank"
-                        :href="`https://audius-discovery-4.theblueprint.xyz/v1/tracks/${track.id}/stream`">
-                        <Icon name="ph:play-fill" />
-                    </a-->
-                    <PlayButton :trackId=track.id />
-                </figure>
-            </div>
+            <SongCard :trackParsedData=track />
         </div>
         <p class="text-lg text-center mb-32">Icon Lib:
             <br>

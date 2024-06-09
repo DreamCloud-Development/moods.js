@@ -39,6 +39,7 @@ const getTrackData = (trackId: string, arg: string) => {
 
 
 
+
 watch(index, (newValue, oldValue) => {
     console.log("Index updated", newValue, oldValue)
     audioPlayer = new Audio('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + state.playlist[state.playlistIndex] + '/stream');
@@ -50,7 +51,6 @@ watch(index, (newValue, oldValue) => {
 })
 
 watch(state.playlist, (newValue, oldValue) => {
-    console.log("Playlist updated", newValue, oldValue)
     if (state.playlistIndex === -1) {
         setPlaylistIndex(0);
     }
@@ -114,10 +114,10 @@ const redoTrack = () => {
         setPlaylistIndex(state.playlistIndex - 1);
     }
 }
-
 </script>
 
 <template>
+    <p></p>
     <div v-if="state.playlistIndex != -1">
         <div
             class="fixed bottom-0 left-0 z-50 grid w-full h-24 grid-cols-1 px-4 bg-base-300 border-t-2 border-primary-content md:grid-cols-3">
