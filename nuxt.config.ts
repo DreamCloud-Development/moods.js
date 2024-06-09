@@ -19,6 +19,10 @@ export default defineNuxtConfig({
           property: 'og:site_name',
           content: 'MOOD™',
         },
+        {
+          name: 'theme-color',
+          content: '#d9934f',
+        },
       ],
     },
     htmlAttrs: {
