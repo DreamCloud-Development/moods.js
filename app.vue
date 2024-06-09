@@ -3,6 +3,7 @@
     <NuxtLoadingIndicator />
     <Navbar />
     <NuxtPage />
+    <Footer />
     <ControlBar />
   </div>
 </template>
