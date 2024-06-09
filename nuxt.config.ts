@@ -14,6 +14,15 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', href: "/favicon.png" }
       ],
-    }
+      meta: [
+        {
+          property: 'og:site_name',
+          content: 'MOOD™',
+        },
+      ],
+    },
+    htmlAttrs: {
+      'data-theme': 'cupcake'
+    },
   },
 })

@@ -61,6 +61,11 @@ export default {
             const { data } = await useFetch(`https://blockdaemon-audius-discovery-03.bdnodes.net/v1/tracks/search?query=${this.$route.query.query}`)
             this.tracks = data.value.data 
         }
+    },
+    watch: {
+        '$route.query'() {
+            this.fetchTracks()
+        }
     }
 }
 </script>

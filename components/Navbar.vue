@@ -1,7 +1,7 @@
 <template>
     <div class="navbar bg-base-300 border-b-2 border-primary-content">
         <div class="navbar-start">
-            <div class="dropdown">
+            <div class="dropdown hidden">
                 <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -46,6 +46,9 @@
                     </a>
                 </li>
             </ul>
+        </div>
+        <div class="navbar-center flex lg:hidden">
+            <SearchBull />
         </div>
         <div class="navbar-end">
             <ThemeDropdown />

@@ -5,6 +5,10 @@ import { watch } from 'vue'
 let audioPlayer = ref(null)
 const trackData = ref('string')
 const isPlaying = ref(true)
+const isShuffled = ref(false)
+const isLooped = ref(false)
+const musicBarWidth = ref(0)
+const currentTime = ref(0)
 
 const playlist = computed({
     get: () => state.playlist,
@@ -33,10 +37,13 @@ const getTrackData = (trackId: string, arg: string) => {
         });
 }
 
+
+
 watch(index, (newValue, oldValue) => {
     console.log("Index updated", newValue, oldValue)
     audioPlayer = new Audio('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + state.playlist[state.playlistIndex] + '/stream');
     audioPlayer.addEventListener('ended', handleNextTrack);
+    audioPlayer.addEventListener('timeupdate', updateMusicBar)
     audioPlayer.play();
     getTrackData(state.playlist[state.playlistIndex]);
     console.log
@@ -49,6 +56,11 @@ watch(state.playlist, (newValue, oldValue) => {
     }
 })
 
+const updateMusicBar = () => {
+    currentTime.value = audioPlayer.currentTime;
+    musicBarWidth.value = (audioPlayer.currentTime / audioPlayer.duration) * 100
+}
+
 const handleNextTrack = () => {
     const currentIndex = state.playlistIndex;
     const nextIndex = currentIndex + 1;
@@ -56,7 +68,19 @@ const handleNextTrack = () => {
     if (nextIndex < playlist.value.length) {
         setPlaylistIndex(nextIndex);
     } else {
-        console.log('Reached the end of the playlist');
+        if (isLooped.value === true) {
+            if (currentIndex === 0) {
+                audioPlayer.currentTime = 0;
+                audioPlayer.play();
+                console.log('Looping the playlist, but a single track is playing')
+            } else {
+                setPlaylistIndex(0);
+                console.log('Looping the playlist')
+            }
+
+        } else {
+            console.log('Reached the end of the playlist');
+        }
     }
 }
 
@@ -67,6 +91,14 @@ const playPauseButton = () => {
         audioPlayer.play();
     }
     isPlaying.value = !isPlaying.value;
+}
+
+const shuffleButton = () => {
+    isShuffled.value = !isShuffled.value;
+}
+
+const loopButton = () => {
+    isLooped.value = !isLooped.value;
 }
 
 const skipTrack = () => {
@@ -82,140 +114,147 @@ const redoTrack = () => {
         setPlaylistIndex(state.playlistIndex - 1);
     }
 }
+
 </script>
 
 <template>
     <div v-if="state.playlistIndex != -1">
         <div
-            class="fixed bottom-0 left-0 z-50 grid w-full h-24 grid-cols-1 px-8 bg-white border-t border-gray-200 md:grid-cols-3 dark:bg-gray-700 dark:border-gray-600">
+            class="fixed bottom-0 left-0 z-50 grid w-full h-24 grid-cols-1 px-8 bg-base-300 border-t-2 border-primary-content md:grid-cols-3">
             <div class="items-center justify-center hidden me-auto md:flex">
                 <img class="h-8 me-3 rounded" :src="trackData.artwork['480x480']" alt="Song's Artwork">
-                <span class="text-sm text-gray-500 dark:text-gray-400">{{ trackData.title }}</span>
+                <span class="text-sm">{{ trackData.title }}</span>
             </div>
             <div class="flex items-center w-full">
                 <div class="w-full">
                     <div class="flex items-center justify-center mx-auto mb-1">
 
                         <button data-tooltip-target="tooltip-shuffle" type="button"
-                            class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                            <Icon name="streamline:shuffle-solid" class="text-error" />
-                            <span class="sr-only">Shuffle video</span>
+                            class="p-2.5 group rounded-full me-1">
+                            <Icon name="streamline:play-list-folder-solid" class="text-error" />
+                            <span class="sr-only">Add to Playlist</span>
                         </button>
                         <div id="tooltip-shuffle" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Shuffle video
+                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium transition-opacity duration-300 rounded-lg shadow-sm opacity-0 tooltip">
+                            Add to Playlist
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
 
 
                         <button @click="redoTrack();" data-tooltip-target="tooltip-previous" type="button"
-                            class="p-2.5 group rounded-full hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                            <Icon name="streamline:button-previous-solid" />
+                            class="p-2.5 group rounded-full">
+                            <Icon name="streamline:button-previous-solid" class="text-primary" />
                             <span class="sr-only">Previous Song</span>
                         </button>
                         <div id="tooltip-previous" role="tooltip"
                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Previous video
+                            Previous Song
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
 
 
                         <button @click="playPauseButton();" data-tooltip-target="tooltip-pause" type="button"
-                            class="inline-flex items-center justify-center p-2.5 mx-2 font-medium bg-blue-600 rounded-full hover:bg-blue-700 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-                            <Icon
-                                :name="isPlaying ? 'streamline:button-pause-2-solid' : 'streamline:button-play-solid'" />
-                            <span class="sr-only">Pause video</span>
+                            class="inline-flex items-center justify-center p-2.5 mx-2 font-medium bg-primary rounded-lg">
+                            <Icon :name="isPlaying ? 'streamline:button-pause-2-solid' : 'streamline:button-play-solid'"
+                                class="text-primary-content" />
+                            <span class="sr-only">Pause Song</span>
                         </button>
                         <div id="tooltip-pause" role="tooltip"
                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Pause video
+                            Pause Song
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
 
 
                         <button @click="skipTrack();" data-tooltip-target="tooltip-next" type="button"
-                            class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                            <Icon name="streamline:button-next-solid" />
-                            <span class="sr-only">Next video</span>
+                            class="p-2.5 group rounded-full">
+                            <Icon name="streamline:button-next-solid" class="text-primary" />
+                            <span class="sr-only">Next Song</span>
                         </button>
                         <div id="tooltip-next" role="tooltip"
                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Next video
+                            Next Song
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
 
 
                         <button data-tooltip-target="tooltip-restart" type="button"
                             class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                            <Icon name="streamline:shuffle-solid" class="text-error" />
-                            <span class="sr-only">Restart video</span>
+                            <Icon name="streamline:hearts-symbol-solid" class="text-error" />
+                            <span class="sr-only">Add to Favorites</span>
                         </button>
                         <div id="tooltip-restart" role="tooltip"
                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Restart video
+                            Add to Favorites
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
-
-
                     </div>
+
                     <div class="flex items-center justify-between space-x-2 rtl:space-x-reverse">
-                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">3:45</span>
+                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
+                            {{ new Date(currentTime * 1000).toISOString().substring(14, 19) }}</span>
                         <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-800">
-                            <div class="bg-blue-600 h-1.5 rounded-full" style="width: 65%"></div>
+                            <div class="bg-primary h-1.5 rounded-full" :style="{ width: musicBarWidth + '%' }">
+                            </div>
                         </div>
-                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">5:00</span>
+                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
+                            {{ new Date(trackData.duration * 1000).toISOString().substring(14, 19) }}</span>
                     </div>
+
                 </div>
             </div>
+
             <div class="items-center justify-center hidden ms-auto md:flex">
                 <button data-tooltip-target="tooltip-playlist" type="button"
                     class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
                     <Icon name="streamline:shuffle-solid" class="text-error" />
-                    <span class="sr-only">View playlist</span>
+                    <span class="sr-only">Shuffle Tracks</span>
                 </button>
                 <div id="tooltip-playlist" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    View playlist
+                    Shuffle Tracks
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
 
-                <button data-tooltip-target="tooltip-captions" type="button"
+                <button @click="loopButton();" data-tooltip-target="tooltip-captions" type="button"
                     class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                    <Icon name="streamline:shuffle-solid" class="text-error" />
-                    <span class="sr-only">Captions</span>
+                    <Icon name="streamline:arrow-infinite-loop-solid"
+                        :class="[isLooped ? 'text-primary' : 'text-primary-content']" />
+                    <span class="sr-only">Loop Tracks</span>
                 </button>
                 <div id="tooltip-captions" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Toggle captions
+                    Loop Tracks
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
 
                 <button data-tooltip-target="tooltip-expand" type="button"
                     class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                    <Icon name="streamline:shuffle-solid" class="text-error" />
-                    <span class="sr-only">Expand</span>
+                    <Icon name="streamline:volume-level-high-solid" class="text-error" />
+                    <span class="sr-only">Adjust Volume</span>
                 </button>
                 <div id="tooltip-expand" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Full screen
+                    Adjust Volume
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
 
                 <button data-tooltip-target="tooltip-volume" type="button"
-                    class="p-2.5 group rounded-full hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                    <Icon name="streamline:shuffle-solid" class="text-error" />
-                    <span class="sr-only">Adjust volume</span>
+                    class="p-2.5 group rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                    <Icon name="streamline:play-list-5-solid" class="text-warning" />
+                    {{ playlist.length }}
+                    <span class="sr-only">Open Queue</span>
                 </button>
                 <div id="tooltip-volume" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Adjust volume
+                    Open Queue
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
-                
+
             </div>
         </div>
     </div>
