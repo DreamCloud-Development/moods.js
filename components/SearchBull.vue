@@ -1,7 +1,8 @@
 <template>
     <label class="input input-sm input-bordered flex items-center gap-1">
         <Icon name="ph:magnifying-glass-bold" />
-        <input type="text" v-model="searchTerm" @keyup.enter="handleSubmit" placeholder="Search..." />
+        <input type="text" v-model="searchTerm" @keyup.enter="handleSubmit" placeholder="Search..."
+            class="placeholder:text-base-content" />
     </label>
 </template>
 

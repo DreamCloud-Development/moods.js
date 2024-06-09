@@ -120,10 +120,18 @@ const redoTrack = () => {
 <template>
     <div v-if="state.playlistIndex != -1">
         <div
-            class="fixed bottom-0 left-0 z-50 grid w-full h-24 grid-cols-1 px-8 bg-base-300 border-t-2 border-primary-content md:grid-cols-3">
+            class="fixed bottom-0 left-0 z-50 grid w-full h-24 grid-cols-1 px-4 bg-base-300 border-t-2 border-primary-content md:grid-cols-3">
             <div class="items-center justify-center hidden me-auto md:flex">
-                <img class="h-8 me-3 rounded" :src="trackData.artwork['480x480']" alt="Song's Artwork">
-                <span class="text-sm">{{ trackData.title }}</span>
+                <img class="h-12 me-3 rounded" :src="trackData.artwork['480x480']" alt="Song's Artwork">
+                <div class="inline-block leading-none">
+                    <span class="text-sm">
+                        <Icon name="ph:music-note-fill" /> {{ trackData.title }}
+                    </span>
+                    <br>
+                    <span class="text-sm">
+                        <Icon name="ph:person-fill" /> {{ trackData.user.name }}
+                    </span>
+                </div>
             </div>
             <div class="flex items-center w-full">
                 <div class="w-full">
@@ -193,7 +201,7 @@ const redoTrack = () => {
                     <div class="flex items-center justify-between space-x-2 rtl:space-x-reverse">
                         <span class="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
                             {{ new Date(currentTime * 1000).toISOString().substring(14, 19) }}</span>
-                        <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-800">
+                        <div class="w-full bg-base-100 rounded-full h-1.5">
                             <div class="bg-primary h-1.5 rounded-full" :style="{ width: musicBarWidth + '%' }">
                             </div>
                         </div>
@@ -243,7 +251,7 @@ const redoTrack = () => {
 
 
                 <button data-tooltip-target="tooltip-volume" type="button"
-                    class="p-2.5 group rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                    class="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
                     <Icon name="streamline:play-list-5-solid" class="text-warning" />
                     {{ playlist.length }}
                     <span class="sr-only">Open Queue</span>

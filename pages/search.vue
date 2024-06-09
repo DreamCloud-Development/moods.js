@@ -15,11 +15,11 @@
                         <Icon name="ph:person-fill" />
                         {{ track.user.name }}
                         <span class="font-black"> - </span>
-                        <Icon name="ph:music-note-fill" />
+                        <Icon name="ph:disc-fill" />
                         {{ track.genre }}
                         <span class="font-black"> - </span>
                         <Icon name="ph:clock-fill" />
-                        {{ track.duration }}s
+                        {{ new Date(track.duration * 1000).toISOString().substring(14, 19) }}
                         <span class="font-black"> - </span>
                         <Icon name="ph:play-fill" />
                         {{ track.play_count }} Ecoutes
