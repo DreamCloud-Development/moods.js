@@ -1,6 +1,12 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/harlem", "nuxt-icon"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/google-fonts",
+    "@nuxtjs/harlem",
+    "nuxt-icon",
+    "@nuxt/image"
+  ],
   googleFonts: {
     families: {
       Lexend: '100..900'
