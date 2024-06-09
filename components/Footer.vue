@@ -13,9 +13,10 @@
             <p class="font-bold">
                 MOOD is <span>Open Source</span><br>
                 <span class="text-center">
-                    <span class="badge bg-base-100 border-2 border-base-300">mood.js</span> <span
-                        class="badge badge-secondary border-2">#{{ hash.sha.slice(0, 6) }}</span>
+                    <span class="badge bg-base-100 border-2 border-base-300">mood.js</span> <span v-if="hash"
+                        class="badge badge-secondary border-2">#{{ hash['sha'].slice(0, 6) }}</span>
                 </span>
+
             </p>
             <p>Copyright © 2024 - All right reserved</p>
         </aside>
