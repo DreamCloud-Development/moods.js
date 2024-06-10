@@ -39,8 +39,8 @@ const getTrackData = (trackId: string) => {
             // Handle any errors
             console.error(error);
         });
-    
-        
+
+
 }
 
 const getBulkData = () => {
@@ -192,8 +192,8 @@ function setupMediaSession(superTrackData) {
             <div class="flex items-center w-full">
                 <div class="w-full">
                     <div class="flex items-center justify-center mx-auto mb-1 self-end">
-                        <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_1.showModal()"
-                            class="p-2.5 mr-8 md:hidden group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                        <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_3.showModal()"
+                            class="p-2.5 mr-8 md:hidden group rounded-full hover:bg-gray-100 me-1 dark:hover:bg-gray-600">
                             <Icon name="streamline:volume-level-high-solid" class="text-primary" />
                             <span class="sr-only">Adjust Volume</span>
                         </button>
@@ -209,16 +209,24 @@ function setupMediaSession(superTrackData) {
                             </form>
                         </dialog>
 
+                        <dialog id="sound_modal_3" class="modal">
+                            <div class="absolute bottom-28 modal-box flex items-center gap-2 p-2 rounded-lg w-10/12">
+                                <Icon name="streamline:volume-mute-solid" />
+                                <input type="range" min="0" max="1" step="0.01" class="range" v-model="currentVolume"
+                                    @input="updateCurrentVolume();" />
+                                <Icon name="streamline:volume-level-high-solid" />
+                            </div>
+                            <form method="dialog" class="modal-backdrop">
+                                <button>close</button>
+                            </form>
+                        </dialog>
 
-                        <button data-tooltip-target="tooltip-shuffle" type="button"
-                            class="p-2.5 group rounded-full me-1">
-                            <Icon name="streamline:play-list-folder-solid" class="text-error" />
-                            <span class="sr-only">Add to Playlist</span>
-                        </button>
-                        <div id="tooltip-shuffle" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium transition-opacity duration-300 rounded-lg shadow-sm opacity-0 tooltip">
-                            Add to Playlist
-                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        <div class="tooltip" data-tip="Not Implemented">
+                            <button data-tooltip-target="tooltip-shuffle" type="button"
+                                class="p-2.5 group rounded-full me-1">
+                                <Icon name="streamline:play-list-folder-solid" class="text-error" />
+                                <span class="sr-only">Add to Playlist</span>
+                            </button>
                         </div>
 
 
@@ -227,11 +235,6 @@ function setupMediaSession(superTrackData) {
                             <Icon name="streamline:button-previous-solid" class="text-primary" />
                             <span class="sr-only">Previous Song</span>
                         </button>
-                        <div id="tooltip-previous" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Previous Song
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
 
 
                         <button @click="playPauseButton();" data-tooltip-target="tooltip-pause" type="button"
@@ -241,38 +244,24 @@ function setupMediaSession(superTrackData) {
                                 class="text-primary-content" />
                             <span class="sr-only">Pause Song</span>
                         </button>
-                        <div id="tooltip-pause" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Pause Song
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
-
 
                         <button @click="skipTrack();" data-tooltip-target="tooltip-next" type="button"
                             class="p-2.5 group rounded-full">
                             <Icon name="streamline:button-next-solid" class="text-primary" />
                             <span class="sr-only">Next Song</span>
                         </button>
-                        <div id="tooltip-next" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Next Song
-                            <div class="tooltip-arrow" data-popper-arrow></div>
+
+                        <div class="tooltip" data-tip="Not Implemented">
+                            <button data-tooltip-target="tooltip-restart" type="button"
+                                class="p-2.5 group rounded-full ">
+                                <Icon name="streamline:hearts-symbol-solid" class="text-error" />
+                                <span class="sr-only">Add to Favorites</span>
+                            </button>
                         </div>
 
-
-                        <button data-tooltip-target="tooltip-restart" type="button"
-                            class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                            <Icon name="streamline:hearts-symbol-solid" class="text-error" />
-                            <span class="sr-only">Add to Favorites</span>
-                        </button>
-                        <div id="tooltip-restart" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Add to Favorites
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
 
                         <button data-tooltip-target="tooltip-volume" type="button" onclick="queue_modal.showModal()"
-                            class="p-2.5 ml-8 md:hidden group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                            class="p-2.5 ml-8 md:hidden group rounded-lg bg-base-100 hover:bg-gray-100 dark:hover:bg-gray-600">
                             <Icon name="ph:playlist-bold" class="text-primary" />
                             {{ playlist.length }}
                             <span class="sr-only">Open Queue</span>
@@ -322,33 +311,25 @@ function setupMediaSession(superTrackData) {
             </div>
 
             <div class="items-center justify-center hidden ms-auto md:flex">
-                <button data-tooltip-target="tooltip-playlist" type="button"
-                    class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                    <Icon name="streamline:shuffle-solid" class="text-error" />
-                    <span class="sr-only">Shuffle Tracks</span>
-                </button>
-                <div id="tooltip-playlist" role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Shuffle Tracks
-                    <div class="tooltip-arrow" data-popper-arrow></div>
+                <div class="tooltip" data-tip="Not Implemented">
+                    <button data-tooltip-target="tooltip-playlist" type="button"
+                        class="p-2.5 group rounded-full hover:bg-gray-100 me-1 dark:hover:bg-gray-600">
+                        <Icon name="streamline:shuffle-solid" class="text-error" />
+                        <span class="sr-only">Shuffle Tracks</span>
+                    </button>
                 </div>
 
 
-                <button @click="loopButton();" data-tooltip-target="tooltip-captions" type="button"
-                    class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                <button @click="loopButton();"
+                    class="p-2.5 group rounded-full hover:bg-gray-100 me-1  dark:hover:bg-gray-600">
                     <Icon name="streamline:arrow-infinite-loop-solid"
-                        :class="[isLooped ? 'text-primary' : 'text-secondary']" />
+                        :class="[isLooped ? 'text-primary' : 'texttext-secondary']" />
                     <span class="sr-only">Loop Tracks</span>
                 </button>
-                <div id="tooltip-captions" role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Loop Tracks
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                </div>
 
 
-                <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_2.showModal()"
-                    class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                <button onclick="sound_modal_3.showModal()"
+                    class="p-2.5 group rounded-full hover:bg-gray-100 me-1  dark:hover:bg-gray-600">
                     <Icon name="streamline:volume-level-high-solid" class="text-primary" />
                     <span class="sr-only">Adjust Volume</span>
                 </button>
@@ -364,26 +345,14 @@ function setupMediaSession(superTrackData) {
                     </form>
                 </dialog>
 
-                <div id="tooltip-expand" role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Adjust Volume
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                </div>
 
 
-                <button data-tooltip-target="tooltip-volume" type="button" onclick="queue_modal.showModal()"
-                    class="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                <button onclick="queue_modal.showModal()"
+                    class="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 dark:hover:bg-gray-600">
                     <Icon name="ph:playlist-bold" class="text-primary" />
                     {{ playlist.length }}
                     <span class="sr-only">Open Queue</span>
                 </button>
-                <div id="tooltip-volume" role="tooltip"
-                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Open Queue
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                </div>
-
-
             </div>
         </div>
     </div>
