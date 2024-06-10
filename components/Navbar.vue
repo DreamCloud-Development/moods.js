@@ -52,10 +52,12 @@
         </div>
     </div>
 <dialog id="menu_modal" class="modal">
-  <div class="modal-box">
+  <div class="modal-box bg-base-300">
     <SearchBull />
-    <h3 class="font-bold text-lg">Hello!</h3>
-    <p class="py-4">Press ESC key or click outside to close</p>
+    <div class="grid grid-cols-2 gap-2 mt-2">
+        <div class="rounded-lg bg-base-100 w-1/2"</div>
+        <div class="rounded-lg bg-base-100 w-1/2"</div>
+    </div>
   </div>
   <form method="dialog" class="modal-backdrop">
     <button>close</button>
