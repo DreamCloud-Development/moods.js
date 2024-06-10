@@ -40,7 +40,7 @@
                     </NuxtLink>
                 </li>
                 <li>
-                    <SearchBull />
+                    <SearchBull placeholderText="Search..." />
                 </li>
                 <li>
                     <a href="https://github.com/DreamCloud-Development/moods.js" target="_blank">
@@ -53,16 +53,69 @@
             <ThemeDropdown />
         </div>
     </div>
-    <dialog id="menu_modal" class="modal">
-        <div class="modal-box bg-base-300">
-            <SearchBull placeholderText="Search on MOOD™..." />
+    <dialog id="menu_modal" class="modal" ref="menu_modal">
+        <div class=" modal-box bg-base-300">
+            <SearchBull placeholderText="Search on MOOD™..." @submit.prevent="handleModalClick();" />
             <div class="grid grid-cols-2 gap-2 mt-4">
-                <NuxtLink to="/" class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
-                    <Icon name="streamline:warehouse-1-solid" />
+
+                <NuxtLink @click="handleModalClick();" to="/"
+                    class=" flex rounded-lg bg-base-100 h-20 justify-center items-center flex-col">
+                    <Icon name="streamline:warehouse-1-solid" /> Home
                 </NuxtLink>
-                <div class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
-                    <Icon name="streamline:ai-settings-spark-solid" />
-                </div>
+
+                <NuxtLink @click="handleModalClick();" to="/info"
+                    class="flex rounded-lg bg-base-100 h-20 justify-center items-center flex-col">
+                    <Icon name="streamline:information-circle-solid" /> Infos <!-- Then Discovery-->
+                </NuxtLink>
+
+                <NuxtLink @click="handleModalClick();" to="/moods"
+                    class="flex rounded-lg bg-base-100 h-20 justify-center items-center flex-col">
+                    <Icon name="ic:baseline-water-drop" /> MOODS
+                </NuxtLink>
+
+                <NuxtLink @click="handleModalClick();" to="/"
+                    class="flex rounded-lg bg-base-100 h-20 justify-center items-center flex-col">
+                    <Icon name="streamline:ai-settings-spark-solid" /> Settings
+                </NuxtLink>
+
+                <button class="col-span-2
+                font-family-[Helvetica,Arial,sans-serif]
+                text-center
+                text-white
+                font-bold
+                flex
+                items-center
+                border-0
+                h-7
+                text-sm
+                px-4
+                justify-center
+                bg-[#CC0FE0]
+                rounded-md
+                transition-all
+                duration-[0.07s]
+                ease-in-out
+                hover:bg-[#D127E3]
+                hover:scale-[1.04]
+                active:bg-[#A30CB3]
+                ">
+                    <svg width="18" height="18" viewBox="0 0 56 48" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        style="padding-right: 5px;">
+                        <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="assets" transform="translate(-1555.000000, -2588.000000)">
+                                <g id="audiusLogoGlyph" transform="translate(1555.000000, 2588.000000)">
+                                    <path
+                                        d="M55.8191698,46.0362519 L42.4551012,23.3458831 L36.1870263,12.7036635 L29.0910326,0.65551431 C28.5766233,-0.217848954 27.2890668,-0.218676884 26.7734944,0.654065432 L13.3787621,23.3270477 L7.90582764,32.5909699 C7.39025522,33.4637122 8.03324043,34.5553386 9.06332791,34.5560631 L19.4031138,34.56279 C19.881044,34.5631005 20.3230236,34.3136864 20.5623059,33.9087249 L25.9362708,24.8122516 L26.7580568,23.4212248 C26.790518,23.3662709 26.8260456,23.3149392 26.8641108,23.2669192 C27.4325516,22.5520012 28.5935412,22.6041608 29.0755951,23.4226737 L34.6514114,32.8894388 L35.682239,34.6396841 C35.7412402,34.7399672 35.7843808,34.8430445 35.813987,34.9470533 C36.0430129,35.7492145 35.4339691,36.6039494 34.5220954,36.6034319 L22.3586676,36.5954631 C21.8806317,36.5951526 21.4387578,36.8445667 21.1994756,37.2496317 L16.0236614,46.0105861 C15.5080889,46.8833284 16.1510741,47.9749548 17.1810559,47.9756793 L27.9002253,47.9827167 L41.2664086,47.9913065 L54.6590261,47.9999997 C55.6892193,48.0006207 56.3335791,46.9096152 55.8191698,46.0362519"
+                                        id="Audius-Logo" fill="#ffffff" fill-rule="evenodd"></path>
+                                    <rect id="bound" x="0" y="0" width="56" height="48"></rect>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                    Login with Audius (not implemented)
+                </button>
+                <!-- Like and Playlist if logged-->
+
             </div>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -70,3 +123,19 @@
         </form>
     </dialog>
 </template>
+
+<script>
+export default {
+    setup() {
+        const menu_modal = ref(null)
+        return {
+            menu_modal
+        }
+    },
+    methods: {
+        handleModalClick() {
+            console.log(menu_modal)
+            menu_modal.close()
+        }
+    }
+}</script>
