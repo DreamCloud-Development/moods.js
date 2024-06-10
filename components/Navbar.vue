@@ -24,11 +24,12 @@
                 </ul>
             </div>
             <button class="btn btn-ghost text-xl font-black gap-px rounded-md " onclick="menu_modal.showModal()">
-                <Icon name="streamline:ai-generate-variation-spark-solid" class="mr-2 p-1 rounded-lg bg-primary text-primary-content" />
-                    M
+                <Icon name="streamline:ai-generate-variation-spark-solid"
+                    class="mr-2 p-1 rounded-lg bg-primary text-primary-content" />
+                M
                 <Icon name="ph:leaf-fill" />
                 <Icon name="ph:fire-fill" />
-                    D
+                D
             </button>
         </div>
         <div class="navbar-center hidden lg:flex">
@@ -52,20 +53,20 @@
             <ThemeDropdown />
         </div>
     </div>
-<dialog id="menu_modal" class="modal">
-  <div class="modal-box bg-base-300">
-    <SearchBull />
-    <div class="grid grid-cols-2 gap-2 mt-2">
-        <NuxtLink to="/" class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
-            <Icon name="streamline:warehouse-1-solid" />
-        </NuxtLink>
-        <div class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
-            <Icon name="streamline:ai-settings-spark-solid" />
+    <dialog id="menu_modal" class="modal">
+        <div class="modal-box bg-base-300">
+            <SearchBull placeholderText="Search on MOOD™..." />
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <NuxtLink to="/" class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
+                    <Icon name="streamline:warehouse-1-solid" />
+                </NuxtLink>
+                <div class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
+                    <Icon name="streamline:ai-settings-spark-solid" />
+                </div>
+            </div>
         </div>
-    </div>
-  </div>
-  <form method="dialog" class="modal-backdrop">
-    <button>close</button>
-  </form>
-</dialog>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 </template>

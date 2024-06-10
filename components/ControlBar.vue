@@ -4,6 +4,7 @@ import { watch } from 'vue'
 
 let audioPlayer = ref(null)
 const trackData = ref('string')
+let mediaData
 const bulkTrackData = ref('string')
 const isPlaying = ref(true)
 const isShuffled = ref(false)
@@ -31,12 +32,15 @@ const getTrackData = (trackId: string) => {
         .then(data => {
             // Handle the JSON data
             trackData.value = data.data;
-            console.log(trackData.value)
+            setupMediaSession(data.data);
+            return data.data;
         })
         .catch(error => {
             // Handle any errors
             console.error(error);
         });
+    
+        
 }
 
 const getBulkData = () => {
@@ -48,7 +52,6 @@ const getBulkData = () => {
         .then(data => {
             // Handle the JSON data
             bulkTrackData.value = data.data;
-            console.log(bulkTrackData.value)
         })
         .catch(error => {
             // Handle any errors
@@ -136,6 +139,34 @@ const redoTrack = () => {
 const updateCurrentVolume = () => {
     audioPlayer.volume = currentVolume.value
 }
+
+function setupMediaSession(superTrackData) {
+    if (navigator.mediaSession) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: superTrackData.title,
+            artist: superTrackData.user.name + ' on MOOD™',
+            artwork: [
+                { src: superTrackData.artwork['480x480'], sizes: '96x96', type: 'image/png' },
+                { src: superTrackData.artwork['480x480'], sizes: '256x256', type: 'image/png' }
+            ]
+        })
+
+        navigator.mediaSession.setActionHandler('play', () => {
+            audioPlayer.play()
+        })
+        navigator.mediaSession.setActionHandler('pause', () => {
+            audioPlayer.pause()
+        })
+
+        navigator.mediaSession.setActionHandler('previoustrack', () => {
+            redoTrack()
+        })
+        navigator.mediaSession.setActionHandler('nexttrack', () => {
+            skipTrack()
+        })
+    }
+}
+
 </script>
 
 <template>
@@ -162,7 +193,7 @@ const updateCurrentVolume = () => {
                 <div class="w-full">
                     <div class="flex items-center justify-center mx-auto mb-1 self-end">
                         <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_1.showModal()"
-                            class="p-2.5 mr-8 lg:hidden group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                            class="p-2.5 mr-8 md:hidden group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
                             <Icon name="streamline:volume-level-high-solid" class="text-primary" />
                             <span class="sr-only">Adjust Volume</span>
                         </button>
@@ -205,7 +236,8 @@ const updateCurrentVolume = () => {
 
                         <button @click="playPauseButton();" data-tooltip-target="tooltip-pause" type="button"
                             class="inline-flex items-center justify-center p-2.5 mx-2 font-medium bg-primary rounded-lg">
-                            <Icon :name="isPlaying ? 'streamline:button-pause-2-solid' : 'streamline:button-play-solid'"
+                            <Icon
+                                :name="audioPlayer.paused ? 'streamline:button-play-solid' : 'streamline:button-pause-2-solid'"
                                 class="text-primary-content" />
                             <span class="sr-only">Pause Song</span>
                         </button>
@@ -240,7 +272,7 @@ const updateCurrentVolume = () => {
                         </div>
 
                         <button data-tooltip-target="tooltip-volume" type="button" onclick="queue_modal.showModal()"
-                            class="p-2.5 ml-8 lg:hidden group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                            class="p-2.5 ml-8 md:hidden group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
                             <Icon name="ph:playlist-bold" class="text-primary" />
                             {{ playlist.length }}
                             <span class="sr-only">Open Queue</span>
@@ -250,7 +282,8 @@ const updateCurrentVolume = () => {
                                 <h3 class="font-bold text-lg">My Queue</h3>
                                 <div v-if="state.playlistIndex != -1">
                                     <div v-for="track in bulkTrackData">
-                                        <SongCardMinimal :trackParsedData=track />
+                                        <!-- Erreur interne de vue ; ça ne marche pas
+                                        SongCardMinimal :trackParsedData=track /-->
                                     </div>
                                 </div>
                                 <div class="flex justify-center gap-2 lg:hidden">
@@ -263,7 +296,7 @@ const updateCurrentVolume = () => {
                                     <button @click="loopButton();" data-tooltip-target="tooltip-captions" type="button"
                                         :class="[isLooped ? 'btn btn-success w-1/2 inline-block p-0 rounded-lg' : 'btn btn-ghost w-1/2 inline-block p-0 rounded-lg']">
                                         <Icon name="streamline:arrow-infinite-loop-solid"
-                                            :class="[isLooped ? 'text-primary' : 'text-primary-content']" />
+                                            :class="[isLooped ? 'text-primary' : 'text-secondary']" />
                                         Loop Tracks
                                     </button>
                                 </div>
@@ -304,7 +337,7 @@ const updateCurrentVolume = () => {
                 <button @click="loopButton();" data-tooltip-target="tooltip-captions" type="button"
                     class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
                     <Icon name="streamline:arrow-infinite-loop-solid"
-                        :class="[isLooped ? 'text-primary' : 'text-primary-content']" />
+                        :class="[isLooped ? 'text-primary' : 'text-secondary']" />
                     <span class="sr-only">Loop Tracks</span>
                 </button>
                 <div id="tooltip-captions" role="tooltip"
