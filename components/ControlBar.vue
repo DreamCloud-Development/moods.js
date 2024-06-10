@@ -4,11 +4,13 @@ import { watch } from 'vue'
 
 let audioPlayer = ref(null)
 const trackData = ref('string')
+const bulkTrackData = ref('string')
 const isPlaying = ref(true)
 const isShuffled = ref(false)
 const isLooped = ref(false)
 const musicBarWidth = ref(0)
 const currentTime = ref(0)
+const currentVolume = ref(1)
 
 const playlist = computed({
     get: () => state.playlist,
@@ -37,7 +39,22 @@ const getTrackData = (trackId: string) => {
         });
 }
 
+const getBulkData = () => {
+    fetch('https://audius-discovery-6.cultur3stake.com/v1/tracks?' + state.playlist.map(item => `id=${item}`).join('&') + '&app_name=MOODS-TM',
+        {
+            method: 'GET',
 
+        }).then(response => response.json())
+        .then(data => {
+            // Handle the JSON data
+            bulkTrackData.value = data.data;
+            console.log(bulkTrackData.value)
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error(error);
+        });
+}
 
 
 watch(index, (newValue, oldValue) => {
@@ -45,6 +62,7 @@ watch(index, (newValue, oldValue) => {
     audioPlayer = new Audio('https://audius-discovery-4.theblueprint.xyz/v1/tracks/' + state.playlist[state.playlistIndex] + '/stream');
     audioPlayer.addEventListener('ended', handleNextTrack);
     audioPlayer.addEventListener('timeupdate', updateMusicBar)
+    audioPlayer.volume = currentVolume.value
     audioPlayer.play();
     getTrackData(state.playlist[state.playlistIndex]);
     console.log
@@ -54,6 +72,7 @@ watch(state.playlist, (newValue, oldValue) => {
     if (state.playlistIndex === -1) {
         setPlaylistIndex(0);
     }
+    getBulkData();
 })
 
 const updateMusicBar = () => {
@@ -114,6 +133,10 @@ const redoTrack = () => {
         setPlaylistIndex(state.playlistIndex - 1);
     }
 }
+
+const updateCurrentVolume = () => {
+    audioPlayer.volume = currentVolume.value
+}
 </script>
 
 <template>
@@ -125,20 +148,37 @@ const redoTrack = () => {
                 <div class="inline-block leading-none">
                     <span class="text-sm">
                         <NuxtLink :to="'/track/' + trackData.id">
-                        <Icon name="ph:music-note-fill" /> {{ trackData.title }}
-                        </NuxtLink> 
+                            <Icon name="ph:music-note-fill" /> {{ trackData.title }}
+                        </NuxtLink>
                     </span>
                     <br>
                     <span class="text-sm">
                         <NuxtLink :to="'/user/' + trackData.user.handle">
-                        <Icon name="ph:person-fill" /> {{ trackData.user.name }}
+                            <Icon name="ph:person-fill" /> {{ trackData.user.name }}
                         </NuxtLink>
                     </span>
                 </div>
             </div>
             <div class="flex items-center w-full">
                 <div class="w-full">
-                    <div class="flex items-center justify-center mx-auto mb-1">
+                    <div class="flex items-center justify-center mx-auto mb-1 self-end">
+                        <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_1.showModal()"
+                            class="p-2.5 mr-8 lg:hidden group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                            <Icon name="streamline:volume-level-high-solid" class="text-error" />
+                            <span class="sr-only">Adjust Volume</span>
+                        </button>
+                        <dialog id="sound_modal_1" class="modal">
+                            <div class="absolute modal-box w-3 left-4 bottom-8 p-0 m-0 rounded-sm"
+                                style="height: 136px;">
+                                <input type="range" min="0" max="1" step="0.1" orient="vertical" class="translate-y-1"
+                                    style="writing-mode: vertical-lr; direction: rtl" v-model="currentVolume"
+                                    @input="updateCurrentVolume();" />
+                            </div>
+                            <form method="dialog" class="modal-backdrop">
+                                <button>close</button>
+                            </form>
+                        </dialog>
+
 
                         <button data-tooltip-target="tooltip-shuffle" type="button"
                             class="p-2.5 group rounded-full me-1">
@@ -199,6 +239,40 @@ const redoTrack = () => {
                             Add to Favorites
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
+
+                        <button data-tooltip-target="tooltip-volume" type="button" onclick="queue_modal.showModal()"
+                            class="p-2.5 ml-8 lg:hidden group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
+                            <Icon name="ph:playlist-bold" class="text-warning" />
+                            {{ playlist.length }}
+                            <span class="sr-only">Open Queue</span>
+                        </button>
+                        <dialog id="queue_modal" class="modal">
+                            <div class="modal-box h-96 w-96">
+                                <h3 class="font-bold text-lg">My Queue</h3>
+                                <div v-if="state.playlistIndex != -1">
+                                    <div v-for="track in bulkTrackData">
+                                        <SongCardMinimal :trackParsedData=track />
+                                    </div>
+                                </div>
+                                <div class="flex justify-center gap-2 lg:hidden">
+                                    <button @click="shuffleButton();" data-tooltip-target="tooltip-captions"
+                                        type="button"
+                                        class="btn btn-disabled w-1/2 inline-block p-0 rounded-lg text-error">
+                                        <Icon name="streamline:shuffle-solid" class="text-error" />
+                                        Shuffle Tracks
+                                    </button>
+                                    <button @click="loopButton();" data-tooltip-target="tooltip-captions" type="button"
+                                        :class="[isLooped ? 'btn btn-success w-1/2 inline-block p-0 rounded-lg' : 'btn btn-ghost w-1/2 inline-block p-0 rounded-lg']">
+                                        <Icon name="streamline:arrow-infinite-loop-solid"
+                                            :class="[isLooped ? 'text-primary' : 'text-primary-content']" />
+                                        Loop Tracks
+                                    </button>
+                                </div>
+                            </div>
+                            <form method="dialog" class="modal-backdrop">
+                                <button>close</button>
+                            </form>
+                        </dialog>
                     </div>
 
                     <div class="flex items-center justify-between space-x-2 rtl:space-x-reverse">
@@ -241,11 +315,23 @@ const redoTrack = () => {
                 </div>
 
 
-                <button data-tooltip-target="tooltip-expand" type="button"
+                <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_2.showModal()"
                     class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
                     <Icon name="streamline:volume-level-high-solid" class="text-error" />
                     <span class="sr-only">Adjust Volume</span>
                 </button>
+
+                <dialog id="sound_modal_2" class="modal">
+                    <div class="absolute modal-box w-3 right-12 bottom-8 p-0 m-0 rounded-sm" style="height: 136px;">
+                        <input type="range" min="0" max="1" step="0.1" orient="vertical" class="translate-y-1"
+                            style="writing-mode: vertical-lr; direction: rtl" v-model="currentVolume"
+                            @input="updateCurrentVolume();" />
+                    </div>
+                    <form method="dialog" class="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </dialog>
+
                 <div id="tooltip-expand" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                     Adjust Volume
@@ -253,7 +339,7 @@ const redoTrack = () => {
                 </div>
 
 
-                <button data-tooltip-target="tooltip-volume" type="button"
+                <button data-tooltip-target="tooltip-volume" type="button" onclick="queue_modal.showModal()"
                     class="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
                     <Icon name="ph:playlist-bold" class="text-warning" />
                     {{ playlist.length }}
