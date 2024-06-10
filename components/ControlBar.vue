@@ -167,7 +167,7 @@ const updateCurrentVolume = () => {
                             <span class="sr-only">Adjust Volume</span>
                         </button>
                         <dialog id="sound_modal_1" class="modal">
-                            <div class="absolute modal-box w-3 left-4 bottom-8 p-0 m-0 rounded-sm"
+                            <div class="absolute modal-box w-5 left-4 bottom-8 p-0 m-0 rounded-sm"
                                 style="height: 136px;">
                                 <input type="range" min="0" max="1" step="0.1" orient="vertical" class="translate-y-1"
                                     style="writing-mode: vertical-lr; direction: rtl" v-model="currentVolume"
