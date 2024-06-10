@@ -1,9 +1,10 @@
 <template>
     <div class="card card-side bg-base-300 border-2 border-primary-content mx-2 lg:mx-10 mt-2">
-        <figure>
-            <img class="h-32 w-32 rounded-l-none" :src="trackParsedData.artwork['480x480']" alt="Cover Image" />
+        <figure class="hidden lg:flex">
+            <img class="h-32 w-32 rounded-l-none hidden lg:flex" :src="trackParsedData.artwork['480x480']"
+                alt="Cover Image" />
         </figure>
-        <div class="card-body">
+        <div class="card-body col-span-2">
             <NuxtLink :to="'/track/' + trackParsedData.id">
                 <h2 class="card-title">{{ trackParsedData.title }}</h2>
             </NuxtLink>
@@ -23,9 +24,9 @@
                 {{ trackParsedData.play_count }} Ecoutes
             </p>
         </div>
-        <figure class="mr-8">
+        <div class="mr-8 start-2 flex items-center">
             <PlayButton :trackId=trackParsedData.id />
-        </figure>
+        </div>
     </div>
 </template>
 
