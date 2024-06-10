@@ -14,12 +14,19 @@ const { data: artistData } = await useFetch('https://discoveryprovider2.audius.c
             :src="requestData.data.profile_picture['480x480']" alt="Cover Image" />
         <h1 class="absolute bottom-12 left-44 font-bold text-xl lg:text-3xl">
             {{ requestData.data.name }}
-            {{ requestData.data.is_verified ? '✔️' : ''}}
+
+            <div v-if="requestData.data.is_verified" class="tooltip" data-tip="Verified Artist">
+                <Icon name="ri:verified-badge-fill" class="text-emerald-500" />
+            </div>
+            <div v-if="requestData.data.id === 'aY1Alz'" class="tooltip" data-tip="Member of the MOOD™ Team">
+                <Icon name="ri:verified-badge-fill" class="text-cyan-300" />
+            </div>
         </h1>
         <h2 class="absolute bottom-3 left-44 text-md lg:text-xl glass p-1 rounded-lg">
             {{ requestData.data.follower_count }} Folowers - {{ requestData.data.track_count }} Tracks
         </h2>
-        <h3 class="absolute bottom-64 lg:bottom-2 right-1 lg:right-2 text-sm lg:text-md bg-primary p-1 rounded-lg text-primary-content">
+        <h3
+            class="absolute bottom-64 lg:bottom-2 right-1 lg:right-2 text-sm lg:text-md bg-primary p-1 rounded-lg text-primary-content">
             <Icon name="streamline:sign-hashtag-solid" /> {{ requestData.data.id }}
         </h3>
     </div>
