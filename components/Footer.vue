@@ -11,7 +11,7 @@
                 </g>
             </svg>
             <p class="font-bold">
-                MOOD is <span>Open Source</span><br>
+                MOOD is <span class="bg-gradient-to-r from-warning to-error bg-clip-text text-transparent">Open Source</span><br>
                 <span class="text-center">
                     <span class="badge bg-base-100 border-2 border-base-300">mood.js</span> <span v-if="hash"
                         class="badge badge-secondary border-2">#{{ hash['sha'].slice(0, 6) }}</span>
