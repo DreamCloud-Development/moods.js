@@ -23,7 +23,7 @@
                     <li><a>Item 3</a></li>
                 </ul>
             </div>
-            <button class="btn btn-ghost text-xl font-black gap-px rounded-md" onclick="menu_modal.showModal()">
+            <button class="btn btn-ghost text-xl font-black gap-px rounded-lg text-base-300" onclick="menu_modal.showModal()">
                 <Icon name="streamline:ai-generate-variation-spark-solid" class="mr-1 p-1 bg-primary" />
                 M
                 <Icon name="ph:leaf-fill" />
@@ -56,10 +56,10 @@
   <div class="modal-box bg-base-300">
     <SearchBull />
     <div class="grid grid-cols-2 gap-2 mt-2">
-        <div class="rounded-lg bg-base-100 w-1/2">
+        <div class="rounded-lg bg-base-100 h-12 justify-center items-center">
             <Icon name="streamline:warehouse-1-solid" />
         </div>
-        <div class="rounded-lg bg-base-100 w-1/2">
+        <div class="rounded-lg bg-base-100 h-12 justify-center items-center">
             <Icon name="streamline:ai-settings-spark-solid" />
         </div>
     </div>
