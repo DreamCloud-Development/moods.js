@@ -5,6 +5,8 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const { data: requestData } = await useFetch('https://discovery-au-02.audius.openplayer.org/v1/users/handle/' + route.params.handle + '?app_name=MOODS-TM')
 const { data: artistData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/tracks?app_name=MOODS-TM&limit=1000')
+const { data: pinnedData } = await useFetch('https://discoveryprovider2.audius.co/v1/tracks/' + requestData.value.data.artist_pick_track_id + '?app_name=MOODS-TM&limit=1000')
+const { data: repostData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/reposts?app_name=MOODS-TM&limit=1000')
 </script>
 
 <template>
@@ -33,9 +35,64 @@ const { data: artistData } = await useFetch('https://discoveryprovider2.audius.c
     <div class="card my-8">
         <h2 class="card-title mx-12">Bio</h2>
         <p v-html="requestData.data.bio" class="mx-12" style="white-space: pre;"></p>
-        <h2 class=" card-title mt-4 mx-12">Tracks</h2>
-        <p v-for="(track, index) in artistData.data">
-            <SongCard :trackParsedData="artistData.data[index]" />
-        </p>
+
+        <div v-if="requestData.data.artist_pick_track_id">
+            <h2 class=" card-title mt-4 mx-12">Picked Tracks</h2>
+            <div class="mx-2 lg:mx-10">
+                <SongCard :trackParsedData="pinnedData.data" :cool="true" />
+            </div>
+        </div>
+
+        <div role="tablist" class="tabs tabs-bordered mx-10 tabs-lg font-bold mt-4">
+            <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Tracks" checked />
+            <div role="tabpanel" class="tab-content">
+                <p v-for="(track, index) in artistData.data">
+                    <SongCard :trackParsedData="artistData.data[index]" />
+                </p>
+            </div>
+
+            <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Reposts" />
+            <div role="tabpanel" class="tab-content">
+                <p v-for="(track, index) in repostData.data">
+                    <SongCard v-if="repostData.data[index].item_type === 'track'"
+                        :trackParsedData="repostData.data[index].item" />
+                    <PlaylistCard v-if="repostData.data[index].item_type === 'playlist'"
+                        :trackParsedData="repostData.data[index].item" />
+                </p>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="join join-vertical mx-10 w-[94.5%] hidden lg:block">
+        <div class="collapse collapse-arrow join-item border border-base-300">
+            <input type="radio" name="my-accordion-4" />
+            <div class="collapse-title text-xl font-medium">
+                Developer Data - Base Request
+            </div>
+            <div class="collapse-content">
+                <pre id="json">{{ requestData.data }}</pre>
+            </div>
+        </div>
+        <div class="collapse collapse-arrow join-item border border-base-300">
+            <input type="radio" name="my-accordion-4" />
+            <div class="collapse-title text-xl font-medium">
+                Developer Data - Track Request
+            </div>
+            <div class="collapse-content">
+                <pre id="json">{{ artistData.data }}</pre>
+            </div>
+        </div>
+        <div class="collapse collapse-arrow join-item border border-base-300">
+            <input type="radio" name="my-accordion-4" />
+            <div class="collapse-title text-xl font-medium">
+                Repost Data
+            </div>
+            <div class="collapse-content">
+                <pre id="json">{{ repostData.data }}</pre>
+            </div>
+        </div>
     </div>
 </template>

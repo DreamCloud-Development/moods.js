@@ -1,5 +1,6 @@
 <template>
-    <div class="card card-side bg-base-300 border-2 border-primary-content mx-2 lg:mx-10 mt-2">
+    <div
+        :class="['card', 'card-side', 'border-primary-content', 'border-2', 'mt-2', cool ? 'bg-primary' : 'bg-base-300']">
         <figure class="hidden lg:flex">
             <img class="h-32 w-32 rounded-l-none hidden lg:flex" :src="trackParsedData.artwork['480x480']"
                 alt="Cover Image" />
@@ -18,7 +19,7 @@
                 {{ trackParsedData.genre }}
                 <span class="font-black"> - </span>
                 <Icon name="ph:clock-fill" />
-                {{ new Date(trackParsedData.duration * 1000).toISOString().substring(14, 19) }}
+                {{ new Date(trackParsedData.duration * 1000).toISOString().substring(14, 19)}}
                 <span class="font-black"> - </span>
                 <Icon name="ph:play-fill" />
                 {{ trackParsedData.play_count }} Ecoutes
@@ -34,6 +35,7 @@
 export default {
     props: {
         trackParsedData: Object,
+        cool: false,
     }
 };
 </script>
