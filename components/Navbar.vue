@@ -24,7 +24,7 @@
                 </ul>
             </div>
             <button class="btn btn-ghost text-xl font-black gap-px rounded-md " onclick="menu_modal.showModal()">
-                <Icon name="streamline:ai-generate-variation-spark-solid" class="mr-1 p-1 rounded-lg bg-primary text-primary-content" />
+                <Icon name="streamline:ai-generate-variation-spark-solid" class="mr-2 p-1 rounded-lg bg-primary text-primary-content" />
                     M
                 <Icon name="ph:leaf-fill" />
                 <Icon name="ph:fire-fill" />
@@ -56,9 +56,9 @@
   <div class="modal-box bg-base-300">
     <SearchBull />
     <div class="grid grid-cols-2 gap-2 mt-2">
-        <div class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
+        <NuxtLink to="/" class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
             <Icon name="streamline:warehouse-1-solid" />
-        </div>
+        </NuxtLink>
         <div class="flex rounded-lg bg-base-100 h-12 justify-center items-center">
             <Icon name="streamline:ai-settings-spark-solid" />
         </div>
