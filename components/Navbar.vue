@@ -23,12 +23,12 @@
                     <li><a>Item 3</a></li>
                 </ul>
             </div>
-            <NuxtLink to="/" class="btn btn-ghost text-xl font-black gap-px rounded-md">
+            <button class="btn btn-ghost text-xl font-black gap-px rounded-md" onclick="menu_modal.showModal()">
                 M
                 <Icon name="ph:leaf-fill" />
                 <Icon name="ph:fire-fill" />
                 D
-            </NuxtLink>
+            </button>
         </div>
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1 gap-2 align-bottom">
@@ -48,10 +48,17 @@
             </ul>
         </div>
         <div class="navbar-end">
-            <div class="flex lg:hidden mr-2">
-                <SearchBull />
-            </div>
             <ThemeDropdown />
         </div>
     </div>
+<dialog id="menu_modal" class="modal">
+  <div class="modal-box">
+    <SearchBull />
+    <h3 class="font-bold text-lg">Hello!</h3>
+    <p class="py-4">Press ESC key or click outside to close</p>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
 </template>
