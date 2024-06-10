@@ -25,12 +25,10 @@
             </div>
             <button class="btn btn-ghost text-xl font-black gap-px rounded-md " onclick="menu_modal.showModal()">
                 <Icon name="streamline:ai-generate-variation-spark-solid" class="mr-1 p-1 rounded-lg bg-primary text-primary-content" />
-                <span>
                     M
                 <Icon name="ph:leaf-fill" />
                 <Icon name="ph:fire-fill" />
                     D
-                </span>
             </button>
         </div>
         <div class="navbar-center hidden lg:flex">
