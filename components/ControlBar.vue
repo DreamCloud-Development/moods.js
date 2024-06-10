@@ -65,36 +65,7 @@ watch(index, (newValue, oldValue) => {
     audioPlayer.volume = currentVolume.value
     audioPlayer.play();
     getTrackData(state.playlist[state.playlistIndex]);
-    // Set up the media session
-navigator.mediaSession.metadata = new MediaMetadata({
-  title: trackData.value.title,
-  artist: trackData.value.user.name,
-  artwork: [
-    { src: trackData.value.artwork['480x480'], sizes: '96x96', type: 'image/jpg' },
-    { src: trackData.value.artwork['480x480'], sizes: '256x256', type: 'image/jpg' }
-  ]
-});
 })
-
-
-
-
-navigator.mediaSession.setActionHandler('play', () => {
-  audioPlayer.play();
-});
-
-navigator.mediaSession.setActionHandler('pause', () => {
-  audioPlayer.pause();
-});
-
-
-navigator.mediaSession.setActionHandler('previoustrack', () => {
-  redoTrack();
-});
-
-navigator.mediaSession.setActionHandler('nexttrack', () => {
-  skipTrack();
-});
 
 watch(state.playlist, (newValue, oldValue) => {
     if (state.playlistIndex === -1) {
@@ -192,7 +163,7 @@ const updateCurrentVolume = () => {
                     <div class="flex items-center justify-center mx-auto mb-1 self-end">
                         <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_1.showModal()"
                             class="p-2.5 mr-8 lg:hidden group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                            <Icon name="streamline:volume-level-high-solid" class="text-error" />
+                            <Icon name="streamline:volume-level-high-solid" class="text-primary" />
                             <span class="sr-only">Adjust Volume</span>
                         </button>
                         <dialog id="sound_modal_1" class="modal">
@@ -270,7 +241,7 @@ const updateCurrentVolume = () => {
 
                         <button data-tooltip-target="tooltip-volume" type="button" onclick="queue_modal.showModal()"
                             class="p-2.5 ml-8 lg:hidden group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                            <Icon name="ph:playlist-bold" class="text-warning" />
+                            <Icon name="ph:playlist-bold" class="text-primary" />
                             {{ playlist.length }}
                             <span class="sr-only">Open Queue</span>
                         </button>
@@ -345,7 +316,7 @@ const updateCurrentVolume = () => {
 
                 <button data-tooltip-target="tooltip-expand" type="button" onclick="sound_modal_2.showModal()"
                     class="p-2.5 group rounded-full hover:bg-gray-100 me-1 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                    <Icon name="streamline:volume-level-high-solid" class="text-error" />
+                    <Icon name="streamline:volume-level-high-solid" class="text-primary" />
                     <span class="sr-only">Adjust Volume</span>
                 </button>
 
@@ -369,7 +340,7 @@ const updateCurrentVolume = () => {
 
                 <button data-tooltip-target="tooltip-volume" type="button" onclick="queue_modal.showModal()"
                     class="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-600 dark:hover:bg-gray-600">
-                    <Icon name="ph:playlist-bold" class="text-warning" />
+                    <Icon name="ph:playlist-bold" class="text-primary" />
                     {{ playlist.length }}
                     <span class="sr-only">Open Queue</span>
                 </button>
