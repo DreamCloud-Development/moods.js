@@ -65,8 +65,36 @@ watch(index, (newValue, oldValue) => {
     audioPlayer.volume = currentVolume.value
     audioPlayer.play();
     getTrackData(state.playlist[state.playlistIndex]);
-    console.log
+    // Set up the media session
+navigator.mediaSession.metadata = new MediaMetadata({
+  title: trackData.value.title,
+  artist: trackData.value.user.name,
+  artwork: [
+    { src: trackData.value.artwork['480x480'], sizes: '96x96', type: 'image/jpg' },
+    { src: trackData.value.artwork['480x480'], sizes: '256x256', type: 'image/jpg' }
+  ]
+});
 })
+
+
+
+
+navigator.mediaSession.setActionHandler('play', () => {
+  audioPlayer.play();
+});
+
+navigator.mediaSession.setActionHandler('pause', () => {
+  audioPlayer.pause();
+});
+
+
+navigator.mediaSession.setActionHandler('previoustrack', () => {
+  redoTrack();
+});
+
+navigator.mediaSession.setActionHandler('nexttrack', () => {
+  skipTrack();
+});
 
 watch(state.playlist, (newValue, oldValue) => {
     if (state.playlistIndex === -1) {
