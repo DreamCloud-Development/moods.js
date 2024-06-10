@@ -1,10 +1,15 @@
 <template>
     <div>
         <!--div v-if="tracks.length > 0"-->
-        <h1 class="text-center text-6xl font-black mt-8 mb-8">
+        <h1 class="text-center text-3xl lg:text-6xl font-black mt-8 mb-8">
             Search results for: {{ $route.query.query }}
-        </h1>
-        <div v-for="track in tracks">
+            </h1>
+            <div v-if="tracks.length == 0">
+            <h1 class="text-center text-sm lg:text-xl mt-8 mb-8">
+                Sowwy, we found nothing which look like what you asked us...
+            </h1>
+        </div>
+        <div v-else v-for="track in tracks">
             <SongCard :trackParsedData=track />
         </div>
         <!--p class="text-lg text-center mb-32">Icon Lib:
