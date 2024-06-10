@@ -5,11 +5,11 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@nuxtjs/harlem",
     "nuxt-icon",
-    "@nuxt/image"
+    "@nuxtjs/device",
   ],
   googleFonts: {
     families: {
-      Lexend: '100..900'
+      Lexend: '100..900',
     }
   },
   app: {
