@@ -36,4 +36,7 @@ export default defineNuxtConfig({
       'data-theme': 'cupcake'
     },
   },
+  router: {
+    middleware: ['auth-callback']
+  }
 })

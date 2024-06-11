@@ -22,7 +22,7 @@
                 {{ new Date(trackParsedData.duration * 1000).toISOString().substring(14, 19)}}
                 <span class="font-black"> - </span>
                 <Icon name="ph:play-fill" />
-                {{ trackParsedData.play_count }} Ecoutes
+                {{ trackParsedData.play_count }} Lisenings
             </p>
         </div>
         <div class="mr-8 start-2 flex items-center">

@@ -5,7 +5,7 @@ import { watch } from 'vue'
 let audioPlayer = ref(null)
 const trackData = ref('string')
 let mediaData
-const bulkTrackData = ref('string')
+const bulkTrackData = ref(null)
 const isPlaying = ref(true)
 const isShuffled = ref(false)
 const isLooped = ref(false)
@@ -267,23 +267,22 @@ function setupMediaSession(superTrackData) {
                             <span class="sr-only">Open Queue</span>
                         </button>
                         <dialog id="queue_modal" class="modal">
-                            <div class="modal-box h-96 w-96">
+                            <div class="modal-box h-96 w-96 relative overflow-y-auto">
                                 <h3 class="font-bold text-lg">My Queue</h3>
-                                <div v-if="state.playlistIndex != -1">
-                                    <div v-for="track in bulkTrackData">
-                                        <!-- Erreur interne de vue ; ça ne marche pas
-                                        SongCardMinimal :trackParsedData=track /-->
+                                <div v-if="state.playlistIndex != -1 ">
+                                    <div v-if="bulkTrackData" v-for="track in bulkTrackData">
+                                        <SongCardMinimal :trackParsedData=track />
                                     </div>
                                 </div>
-                                <div class="flex justify-center gap-2 lg:hidden">
+                                <div class="flex justify-center gap-2 z-10 sticky bottom-0">
                                     <button @click="shuffleButton();" data-tooltip-target="tooltip-captions"
                                         type="button"
-                                        class="btn btn-disabled w-1/2 inline-block p-0 rounded-lg text-error">
+                                        class="btn w-1/2 inline-block p-0 rounded-lg text-error z-20">
                                         <Icon name="streamline:shuffle-solid" class="text-error" />
                                         Shuffle Tracks
                                     </button>
                                     <button @click="loopButton();" data-tooltip-target="tooltip-captions" type="button"
-                                        :class="[isLooped ? 'btn btn-success w-1/2 inline-block p-0 rounded-lg' : 'btn btn-ghost w-1/2 inline-block p-0 rounded-lg']">
+                                        :class="[isLooped ? 'btn btn-success w-1/2 inline-block p-0 rounded-lg z-20' : 'btn btn-default w-1/2 inline-block p-0 rounded-lg z-20']">
                                         <Icon name="streamline:arrow-infinite-loop-solid"
                                             :class="[isLooped ? 'text-primary' : 'text-secondary']" />
                                         Loop Tracks

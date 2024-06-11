@@ -25,7 +25,7 @@
                     <div v-for="playlist in playlists">
                         <PlaylistCard v-if="playlist.is_album" :trackParsedData=playlist />
                     </div>
-                    <div class="collapse collapse-arrow bg-base-200 mt-4">
+                    <div class="collapse collapse-arrow bg-base-200 mt-4 w-[88.5rem] hidden lg:grid">
                         <input type="radio" name="my-accordion-2" />
                         <div class="collapse-title text-xl font-medium">
                             Show raw playlist data

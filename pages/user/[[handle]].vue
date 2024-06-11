@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
+const user = ref(useCookie('user').value)
+
 const { data: requestData } = await useFetch('https://discovery-au-02.audius.openplayer.org/v1/users/handle/' + route.params.handle + '?app_name=MOODS-TM')
 const { data: artistData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/tracks?app_name=MOODS-TM&limit=1000')
 const { data: pinnedData } = await useFetch('https://discoveryprovider2.audius.co/v1/tracks/' + requestData.value.data.artist_pick_track_id + '?app_name=MOODS-TM&limit=1000')
@@ -61,37 +63,36 @@ const { data: repostData } = await useFetch('https://discoveryprovider2.audius.c
                 </p>
             </div>
         </div>
-
-
     </div>
 
-
-    <div class="join join-vertical mx-10 w-[94.5%] hidden lg:block">
-        <div class="collapse collapse-arrow join-item border border-base-300">
-            <input type="radio" name="my-accordion-4" />
-            <div class="collapse-title text-xl font-medium">
-                Developer Data - Base Request
+    <div v-if="user">
+        <div v-if="user.userId === 'aY1Alz'" class="join join-vertical mx-10 w-[94.5%] hidden lg:block">
+            <div class="collapse collapse-arrow join-item border border-base-300">
+                <input type="radio" name="my-accordion-4" />
+                <div class="collapse-title text-xl font-medium">
+                    Developer Data - Base Request
+                </div>
+                <div class="collapse-content">
+                    <pre id="json">{{ requestData.data }}</pre>
+                </div>
             </div>
-            <div class="collapse-content">
-                <pre id="json">{{ requestData.data }}</pre>
+            <div class="collapse collapse-arrow join-item border border-base-300">
+                <input type="radio" name="my-accordion-4" />
+                <div class="collapse-title text-xl font-medium">
+                    Developer Data - Track Request
+                </div>
+                <div class="collapse-content">
+                    <pre id="json">{{ artistData.data }}</pre>
+                </div>
             </div>
-        </div>
-        <div class="collapse collapse-arrow join-item border border-base-300">
-            <input type="radio" name="my-accordion-4" />
-            <div class="collapse-title text-xl font-medium">
-                Developer Data - Track Request
-            </div>
-            <div class="collapse-content">
-                <pre id="json">{{ artistData.data }}</pre>
-            </div>
-        </div>
-        <div class="collapse collapse-arrow join-item border border-base-300">
-            <input type="radio" name="my-accordion-4" />
-            <div class="collapse-title text-xl font-medium">
-                Repost Data
-            </div>
-            <div class="collapse-content">
-                <pre id="json">{{ repostData.data }}</pre>
+            <div class="collapse collapse-arrow join-item border border-base-300">
+                <input type="radio" name="my-accordion-4" />
+                <div class="collapse-title text-xl font-medium">
+                    Repost Data
+                </div>
+                <div class="collapse-content">
+                    <pre id="json">{{ repostData.data }}</pre>
+                </div>
             </div>
         </div>
     </div>

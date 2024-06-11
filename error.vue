@@ -33,6 +33,7 @@ useHead({
             </p>
             <NuxtLink class="btn btn-primary" to="/">Yup, take me home
             </NuxtLink>
+            <p v-if="error">{{ error }}</p>
         </div>
     </div>
     <Footer />
