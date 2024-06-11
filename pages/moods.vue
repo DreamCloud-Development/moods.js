@@ -28,8 +28,10 @@
             <br>
             <Icon name="codicon:sparkle-filled" /> - XXX
             <br>
-            <Icon name="fluent:weather-duststorm-24-filled" />
-            <!--Icon name="mdi:weather-dust" /--> - XXX
+            <Icon name="fluent:weather-duststorm-24-filled" /> XX1
+            <br>
+            <Icon name="mdi:weather-dust" /> - XX2
+
         </h3>
     </div>
 </template>
