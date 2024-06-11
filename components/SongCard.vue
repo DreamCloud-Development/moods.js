@@ -7,7 +7,7 @@
         </figure>
         <div class="card-body col-span-2">
             <NuxtLink :to="'/track/' + trackParsedData.id">
-                <h2 class="card-title">{{ trackParsedData.title }}</h2>
+                <h2 class="card-title"><Icon name="streamline:music-note-1-solid" />{{ trackParsedData.title }}</h2>
             </NuxtLink>
             <p>
                 <NuxtLink :to="'/user/' + trackParsedData.user.handle">
