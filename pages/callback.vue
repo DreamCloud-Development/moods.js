@@ -13,6 +13,7 @@ onMounted(() => {
         try {
             const decoded = JSON.parse(atob(token.split('.')[1]))
             user.value = decoded
+            reloadNuxtApp()
             return navigateTo('/')
         } catch (error) {
             console.error('Error verifying token:', error)
