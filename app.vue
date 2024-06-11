@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator :height=5 />
     <Navbar />
     <NuxtPage />
     <Footer />

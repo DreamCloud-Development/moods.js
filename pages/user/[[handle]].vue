@@ -64,36 +64,4 @@ const { data: repostData } = await useFetch('https://discoveryprovider2.audius.c
             </div>
         </div>
     </div>
-
-    <div v-if="user">
-        <div v-if="user.userId === 'aY1Alz'" class="join join-vertical mx-10 w-[94.5%] hidden lg:block">
-            <div class="collapse collapse-arrow join-item border border-base-300">
-                <input type="radio" name="my-accordion-4" />
-                <div class="collapse-title text-xl font-medium">
-                    Developer Data - Base Request
-                </div>
-                <div class="collapse-content">
-                    <pre id="json">{{ requestData.data }}</pre>
-                </div>
-            </div>
-            <div class="collapse collapse-arrow join-item border border-base-300">
-                <input type="radio" name="my-accordion-4" />
-                <div class="collapse-title text-xl font-medium">
-                    Developer Data - Track Request
-                </div>
-                <div class="collapse-content">
-                    <pre id="json">{{ artistData.data }}</pre>
-                </div>
-            </div>
-            <div class="collapse collapse-arrow join-item border border-base-300">
-                <input type="radio" name="my-accordion-4" />
-                <div class="collapse-title text-xl font-medium">
-                    Repost Data
-                </div>
-                <div class="collapse-content">
-                    <pre id="json">{{ repostData.data }}</pre>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
