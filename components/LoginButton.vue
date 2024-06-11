@@ -33,6 +33,6 @@
                 </g>
             </g>
         </svg>
-        Login with Audius (not implemented)
+        Login with Audius
     </button>
 </template>
