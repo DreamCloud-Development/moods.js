@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="handleSubmit" class="p-0">
+    <form @submit.prevent="handleSubmit" class="p-0 col-span-4">
         <label class="input input-sm input-bordered flex items-center gap-1">
             <Icon name="ph:magnifying-glass-bold" />
             <input type="text" v-model="searchTerm" :placeholder=placeholderText class="placeholder:text-base-content" />

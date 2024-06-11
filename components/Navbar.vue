@@ -61,8 +61,10 @@ const user = ref(useCookie('user').value)
             </ul>
         </div>
         <div class="navbar-end">
-            <ThemeDropdown />
-            <NuxtLink v-if="user" class="flex btn btn-ghost p-0 rounded-lg mt-1 px-1" :to="'/user/' + user.handle">
+            <div class="hidden lg:flex">
+                <ThemeDropdown />
+            </div>
+            <NuxtLink v-if="user" class="ml-3 flex btn btn-ghost p-0 rounded-lg mt-1 px-1" :to="'/user/' + user.handle">
                 <div class="mr-1 leading-none flex flex-col justify-end items-end">
                     <h1 class="font-semibold">{{ user.name }}</h1>
                     <p class="text-sm" :to="'/user/' + user.handle">@{{ user.handle }}</p>
@@ -111,7 +113,10 @@ const user = ref(useCookie('user').value)
     </div>
     <dialog id="menu_modal" class="modal" ref="menu_modal">
         <div class=" modal-box bg-base-300">
-            <SearchBull placeholderText="Search on MOOD™..." @submit.prevent="handleModalClick();" />
+            <div class="grid grid-cols-5 gap-2 col-span-2">
+                <SearchBull placeholderText="Search on MOOD™..." @submit.prevent="handleModalClick();" />
+                <ThemeDropdown />
+            </div>
             <div class="grid grid-cols-2 gap-2 mt-4">
 
                 <NuxtLink @click="handleModalClick();" to="/"
@@ -168,7 +173,6 @@ const user = ref(useCookie('user').value)
                         Login with Audius
                     </button>
                 </div>
-
             </div>
         </div>
         <form method="dialog" class="modal-backdrop">
