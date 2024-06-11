@@ -61,6 +61,7 @@ const user = ref(useCookie('user').value)
             </ul>
         </div>
         <div class="navbar-end">
+            <ThemeDropdown />
             <NuxtLink v-if="user" class="flex btn btn-ghost p-0 rounded-lg mt-1 px-1" :to="'/user/' + user.handle">
                 <div class="mr-1 leading-none flex flex-col justify-end items-end">
                     <h1 class="font-semibold">{{ user.name }}</h1>
@@ -146,6 +147,7 @@ const user = ref(useCookie('user').value)
                     <button @click="logout" class="btn col-span-2 btn-error rounded-md">
                         <Icon name="streamline:logout-1-solid" /> Logout
                     </button>
+
                 </div>
                 <div v-else class="grid grid-cols-2 gap-2 col-span-2">
                     <button @click="login()"
