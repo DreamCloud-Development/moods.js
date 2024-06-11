@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { addTrackToPlaylist } from '~/stores/playlist'
+const { $auth } = useNuxtApp()
 
 const route = useRoute()
 const user = ref(useCookie('user').value)

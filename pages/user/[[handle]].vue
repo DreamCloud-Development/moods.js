@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const user = ref(useCookie('user').value)
 
 const { data: requestData } = await useFetch('https://discovery-au-02.audius.openplayer.org/v1/users/handle/' + route.params.handle + '?app_name=MOODS-TM')
 const { data: artistData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/tracks?app_name=MOODS-TM&limit=1000')
