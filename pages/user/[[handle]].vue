@@ -21,7 +21,7 @@ const { data: repostData } = await useFetch('https://discoveryprovider2.audius.c
             <div v-if="requestData.data.is_verified" class="tooltip" data-tip="Verified Artist">
                 <Icon name="ri:verified-badge-fill" class="text-emerald-500" />
             </div>
-            <div v-if="requestData.data.id === 'aY1Alz'" class="tooltip" data-tip="Member of the MOOD™ Team">
+            <div v-if="requestData.data.id === 'aY1Alz'" class="tooltip" data-tip="MOOD™ Team">
                 <Icon name="ri:verified-badge-fill" class="text-cyan-300" />
             </div>
         </h1>
