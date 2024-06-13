@@ -3,10 +3,12 @@
         <aside>
             <img src="/favicon.png" class="w-28 h-28" />
             <p class="font-bold">
-                MOOD is <span class="bg-gradient-to-r from-warning to-error bg-clip-text text-transparent">Open Source</span><br>
+                MOOD is <span class="bg-gradient-to-r from-warning to-error bg-clip-text text-transparent">Open
+                    Source</span><br>
                 <span class="text-center">
-                    <span class="badge bg-base-100 border-2 border-base-300">mood.js</span> <span v-if="hash"
-                        class="badge badge-secondary border-2">#{{ hash['sha'].slice(0, 6) }}</span>
+                    <span class="badge bg-base-100 border-2 border-base-300 mx-1">mood.js</span>
+                    <span v-if="hash" class="badge badge-secondary border-2 mx-1">#{{ hash['sha'].slice(0, 6) }}</span>
+                    <span v-else class="badge badge-secondary border-2 mx-1">#GITHUB</span>
                 </span>
 
             </p>
@@ -25,6 +27,7 @@
                 </a>
             </div>
         </nav>
+        <p class="text-primary" href="https://f.dreamclouds.fr/dreamcode">DreamCode: FLIXSAN</p>
     </footer>
 
 </template>
