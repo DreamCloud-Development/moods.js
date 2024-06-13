@@ -5,11 +5,13 @@
             <img class="h-32 w-32 rounded-l-none hidden lg:flex" :src="trackParsedData.artwork['480x480']"
                 alt="Cover Image" />
         </figure>
-        <div class="card-body col-span-2">
+        <div class="card-body col-span-2 p-2 lg:p-5">
             <NuxtLink :to="'/track/' + trackParsedData.id">
-                <h2 class="card-title"><Icon name="streamline:music-note-1-solid" />{{ trackParsedData.title }}</h2>
+                <h2 class="text-base lg:text-lg card-title">
+                    <Icon name="streamline:music-note-1-solid" />{{ trackParsedData.title }}
+                </h2>
             </NuxtLink>
-            <p>
+            <p class="font-normal">
                 <NuxtLink :to="'/user/' + trackParsedData.user.handle">
                     <Icon name="ph:person-fill" />
                     {{ trackParsedData.user.name }}
@@ -25,7 +27,7 @@
                 {{ trackParsedData.play_count }} Lisenings
             </p>
         </div>
-        <div class="mr-8 start-2 flex items-center">
+        <div class="mr-2 lg:mr-8  start-2 flex items-center">
             <PlayButton :trackId=trackParsedData.id />
         </div>
     </div>

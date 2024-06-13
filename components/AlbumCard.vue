@@ -7,7 +7,7 @@
         <div class="card-body col-span-2 p-2 lg:p-5">
             <NuxtLink :to="'/playlist/' + trackParsedData.id">
                 <h2 class="text-base lg:text-lg card-title">
-                    <Icon name="streamline:music-folder-song-solid" />{{ trackParsedData.playlist_name }}
+                    <Icon name="akar-icons:music-album-fill" />{{ trackParsedData.playlist_name }}
                 </h2>
             </NuxtLink>
             <p class="font-normal">
@@ -18,7 +18,7 @@
 
             </p>
         </div>
-        <div class="mr-2 lg:mr-8  start-2 flex items-center">
+        <div class="mr-2 lg:mr-8 start-2 flex items-center">
             <PlaylistButton :playlistId=trackParsedData.id />
         </div>
     </div>
