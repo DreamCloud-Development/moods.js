@@ -15,25 +15,14 @@
                 <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Playlists" />
                 <div role="tabpanel" class="tab-content" v-if="playlists.length != 0">
                     <div v-for="playlist in playlists">
-                        <PlaylistCard v-if="playlist.is_album === false" :trackParsedData=playlist />
+                        <PlaylistCard :trackParsedData=playlist />
                     </div>
                 </div>
 
                 <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Albums" />
                 <div role="tabpanel" class="tab-content" v-if="playlists.length != 0">
-                    <p><br>This feature should work.<br><br>But Audius Not.</p>
-                    <div v-for="playlist in playlists">
-                        <PlaylistCard v-if="playlist.is_album" :trackParsedData=playlist />
-                    </div>
-                    <div class="collapse collapse-arrow bg-base-200 mt-4 w-[88.5rem] hidden lg:grid">
-                        <input type="radio" name="my-accordion-2" />
-                        <div class="collapse-title text-xl font-medium">
-                            Show raw playlist data
-                        </div>
-                        <div class="collapse-content">
-                            <pre>{{ playlists }}</pre>
-                            <p class="text-error">You see? No <code>playlist.is_album</code> anywhere.</p>
-                        </div>
+                    <div v-for="playlist in albums">
+                        <AlbumCard :trackParsedData=playlist />
                     </div>
                 </div>
 
@@ -69,29 +58,20 @@ export default {
         }
     },
     created() {
-        this.fetchTracks()
-        this.fetchPlaylist()
-        this.fetchUser()
+        this.fetchAll()
     },
     methods: {
-        async fetchTracks() {
-            const { data } = await useFetch(`https://blockdaemon-audius-discovery-03.bdnodes.net/v1/tracks/search?query=${this.$route.query.query}&limit=100`)
-            this.tracks = data.value.data
+        async fetchAll() {
+            const { data } = await useFetch(`https://blockdaemon-audius-discovery-03.bdnodes.net/v1/full/search/full?query=${this.$route.query.query}&app_name=MOODS-TM`)
+            this.tracks = data.value.data.tracks
+            this.playlists = data.value.data.playlists
+            this.users = data.value.data.users
+            this.albums = data.value.data.albums
         },
-        async fetchPlaylist() {
-            const { data } = await useFetch(`https://blockdaemon-audius-discovery-03.bdnodes.net/v1/playlists/search?query=${this.$route.query.query}&limit=100`)
-            this.playlists = data.value.data
-        },
-        async fetchUser() {
-            const { data } = await useFetch(`https://blockdaemon-audius-discovery-03.bdnodes.net/v1/users/search?query=${this.$route.query.query}&limit=100`)
-            this.users = data.value.data
-        }
     },
     watch: {
         '$route.query'() {
-            this.fetchTracks()
-            this.fetchPlaylist()
-            this.fetchUser()
+            this.fetchAll()
         }
     }
 }
