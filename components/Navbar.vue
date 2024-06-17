@@ -72,7 +72,7 @@ const user = ref(useCookie('user').value)
                 <img :src="user.profilePicture['480x480']" alt="User Avatar" class="rounded-full h-10 w-10" />
             </NuxtLink>
             <div v-else>
-                <button @click="login()" class="col-span-2
+                <button @click="login()" class="col-span-2 ml-3
                 font-family-[Helvetica,Arial,sans-serif]
                 text-center
                 text-white
