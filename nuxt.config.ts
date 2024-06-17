@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  runtimeConfig: { SECRET: process.env.AUDIUS_SECRET_KEY, KEY: process.env.AUDIUS_API_KEY, },
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxtjs/google-fonts",

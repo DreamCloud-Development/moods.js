@@ -1,6 +1,19 @@
-<script lang="ts" setup>
+<script setup>
 import { state, getPlaylist, addTrackToPlaylist, setPlaylistIndex } from '~/stores/playlist'
 import { watch } from 'vue'
+import { sdk } from '@audius/sdk'
+
+const runtimeConfig = useRuntimeConfig()
+
+
+const audiusSdk = sdk({
+  apiKey: runtimeConfig.KEY,
+  apiSecret: runtimeConfig.SECRET,
+})
+
+const track = await audiusSdk.tracks.getTrack({ trackId: 'D7KyD' })
+console.log(track, 'Track fetched!')
+
 
 let audioPlayer = ref(null)
 const trackData = ref('string')
@@ -23,7 +36,7 @@ const index = computed({
     set: value => setPlaylistIndex(value),
 })
 
-const getTrackData = (trackId: string) => {
+const getTrackData = (trackId) => {
     fetch('https://audius-discovery-6.cultur3stake.com/v1/tracks/' + trackId + '?app_name=MOODS-TM',
         {
             method: 'GET',
