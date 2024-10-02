@@ -7,7 +7,7 @@ const route = useRoute()
 const { data: requestData } = await useFetch('https://discovery-au-02.audius.openplayer.org/v1/users/handle/' + route.params.handle + '?app_name=MOODS-TM')
 const { data: artistData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/tracks?app_name=MOODS-TM&limit=1000')
 const { data: pinnedData } = await useFetch('https://discoveryprovider2.audius.co/v1/tracks/' + requestData.value.data.artist_pick_track_id + '?app_name=MOODS-TM&limit=1000')
-const { data: repostData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/reposts?app_name=MOODS-TM&limit=1000')
+//const { data: repostData } = await useFetch('https://discoveryprovider2.audius.co/v1/users/' + requestData.value.data.id + '/reposts?app_name=MOODS-TM&limit=1000')
 </script>
 
 <template>
@@ -53,7 +53,7 @@ const { data: repostData } = await useFetch('https://discoveryprovider2.audius.c
             </div>
 
             <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Reposts" />
-            <div role="tabpanel" class="tab-content">
+            <div v-if="repostData"role="tabpanel" class="tab-content">
                 <p v-for="(track, index) in repostData.data">
                     <SongCard v-if="repostData.data[index].item_type === 'track'"
                         :trackParsedData="repostData.data[index].item" />
