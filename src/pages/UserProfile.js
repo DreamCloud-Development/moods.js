@@ -43,8 +43,8 @@ function UserProfile() {
     }
   }, [handle]);
 
-  if (loading) return <div><span className="loading loading-infinity loading-lg"></span></div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div><div className='flex justify-center pt-10'><span className="loading loading-infinity w-64"></span></div><p className="text-center text-xl lg:text-2xl">Chargement...</p></div>;
+  if (error) return <div><div className='flex justify-center pt-10'><Icon icon="ph:seal-warning-fill" className='text-6xl md:text-[14rem] pb-2 text-error'/></div><p className="text-center text-xl lg:text-2xl">Erreur : {error}</p></div>;
 
   return (
     <div>
@@ -88,7 +88,7 @@ function UserProfile() {
         />
       </div>
 
-      <div className='mx-2 lg:mx-6'>
+      <div>
       {trackData.data.map((item, index) => (
         <React.Fragment key={index}>
            <SongCard trackParsedData={item}/>

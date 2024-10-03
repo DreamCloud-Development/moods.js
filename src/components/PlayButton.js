@@ -1,12 +1,23 @@
+//import { useEffect } from 'react';
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { addTrackToPlaylist } from '../stores/playlist';
+import { Icon } from '@iconify/react';
 
-function PlayButton() {
-    return (
-    <select data-choose-theme className="select select-sm select-bordered">
-        <option value="cupcake">🌞</option>
-        <option value="coffee">🌚</option>
-    </select>
-    );
-}
+const PlayButton = ({ trackId }) => {
+  const dispatch = useDispatch();
+  const { playlist, playlistIndex } = useSelector((state) => state.playlist);
+
+  const handleAddToPlaylist = () => {
+    dispatch(addTrackToPlaylist(trackId));
+    console.log(playlist, playlistIndex);
+  };
+
+  return (
+    <button className="btn btn-primary" onClick={handleAddToPlaylist}>
+      <Icon icon="ph-play-fill" />
+    </button>
+  );
+};
 
 export default PlayButton;

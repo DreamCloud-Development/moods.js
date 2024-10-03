@@ -26,7 +26,7 @@ const SongCard = ({ trackParsedData }) => {
                     </h2>
                 </Link>
 
-                <p className="font-normal">
+                <div className="font-normal">
                     <Link to={`/user/${trackParsedData.user.handle}`}>
                         {trackParsedData.user.name}  {trackParsedData.genre}
                     </Link>
@@ -35,13 +35,14 @@ const SongCard = ({ trackParsedData }) => {
                         <Icon icon="ph:clock-fill" />
                         {new Date(trackParsedData.duration * 1000).toISOString().substring(14, 19)}
                         <Icon icon="ph:play-fill" />
-                        {trackParsedData.play_count} Listenings</p>
-                </p>
+                        {trackParsedData.play_count} Listenings
+                    </p>
+                </div>
             </div>
 
             {/* Play button */}
             <div className="mr-2 lg:mr-8 start-2 flex items-center">
-                {/*<PlayButton trackId={trackParsedData.id} />*/}
+                <PlayButton trackId={trackParsedData.id} />
             </div>
         </div>
     );
