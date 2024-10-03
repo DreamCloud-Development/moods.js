@@ -1,30 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from '@iconify/react';
+
+import SearchBar from "./SearchBar";
+import ThemeDropdown from "./ThemeDropdown";
+
 function Navbar() {
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
-        <a className="btn btn-ghost text-xl">
+        <Link to="/" className="btn btn-ghost text-xl font-black gap-px">
             M
             <Icon icon="ph:leaf-fill" />
             <Icon icon="ph:fire-fill" />
             D
-        </a>
+        </Link>
       </div>
       <div className="navbar-center">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
-          />
-        </div>
+        <SearchBar/>
     </div>
     <div className="navbar-end">
+      <ThemeDropdown />
         <div className="dropdown dropdown-end">
           <div
-            tabindex="0"
+            tabIndex="0"
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
@@ -36,20 +35,20 @@ function Navbar() {
             </div>
           </div>
           <ul
-            tabindex="0"
+            tabIndex="0"
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
+              <Link className="justify-between" to="/profile">
                 Profile
                 <span className="badge">New</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link to="/settings">Settings</Link>
             </li>
             <li>
-              <a>Logout</a>
+              <Link to="/logout">Logout</Link>
             </li>
           </ul>
         </div>
