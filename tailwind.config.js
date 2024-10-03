@@ -5,6 +5,18 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ['Lexend', 'sans-serif'],
+      serif: ['Lexend', 'serif'],
+    },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+  ],
+  daisyui: {
+    themes: ['cupcake', 'coffee'],
+    darkTheme: "coffee",
+    logs: false, 
+  },
+  darkMode: ['class', '[data-theme="coffee"]']
 }
