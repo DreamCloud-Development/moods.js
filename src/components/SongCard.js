@@ -13,7 +13,7 @@ const SongCard = ({ trackParsedData }) => {
                 <img
                     className="h-32 w-32 rounded-l-none hidden lg:flex"
                     src={trackParsedData.artwork['480x480']}
-                    alt="Cover Image"
+                    alt="Track Cover"
                 />
             </figure>
 

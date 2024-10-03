@@ -56,7 +56,7 @@ function UserProfile() {
         <img
           className="absolute h-32 w-32 rounded-full bottom-0 left-10 translate-y-5"
           src={userData.data.profile_picture['480x480']}
-          alt="Cover Image"
+          alt="User Audius Banner"
         />
         <h1 className="absolute bottom-12 left-44 font-bold text-xl lg:text-3xl">
           {userData.data.name}
