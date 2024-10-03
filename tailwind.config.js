@@ -1,29 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
-    "./components/**/*.{js,vue,ts}",
-    "./layouts/**/*.vue",
-    "./pages/**/*.vue",
-    "./plugins/**/*.{js,ts}",
-    "./app.vue",
-    "./error.vue",
+    "./src/**/*.{js,jsx,ts,tsx}", // Look for Tailwind classes in these files
   ],
   theme: {
     extend: {},
-    fontFamily: {
-      sans: ['Lexend', 'sans-serif'],
-      serif: ['Lexend', 'serif'],
-    },
   },
-  plugins: [
-    require('daisyui'),
-  ],
-
-  daisyui: {
-    themes: ['cupcake', 'coffee'],
-    darkTheme: "coffee",
-    logs: false, 
-  },
-  darkMode: ['class', '[data-theme="coffee"]']
+  plugins: [],
 }
-
