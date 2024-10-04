@@ -5,22 +5,16 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addTrackToPlaylist,
-  setPlaylistIndex,
-  getPlaylist,
-} from "../stores/playlist";
 import { Icon } from "@iconify/react";
+import Context from '../Context';
 
 const AudioPlayer = () => {
-  const dispatch = useDispatch();
-  const { playlist, playlistIndex } = useSelector((state) => state.playlist);
+  const { playlist, playlistIndex, setPlaylistIndex } = useState("");
 
   const [trackData, setTrackData] = useState("");
-  const [mediaData, setMediaData] = useState(null);
-  const [bulkTrackData, setBulkTrackData] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [streamData, setMediaData] = useState(null);
+  const [listData, setBulkTrackData] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isShuffled, setIsShuffled] = useState(false);
   const [isLooped, setIsLooped] = useState(false);
   const [musicBarWidth, setMusicBarWidth] = useState(0);
@@ -29,52 +23,34 @@ const AudioPlayer = () => {
 
   const audioPlayer = useRef(null);
 
-  useEffect(() => {
-    if (playlist.length > 0 && playlistIndex < playlist.length) {
-      console.log("Changement détécté");
-      // Get the TrackID from the playlist based on the current playlistIndex
-      const trackId = playlist[playlistIndex];
-      const audioUrl = `https://audius-discovery-4.theblueprint.xyz/v1/tracks/${trackId}/stream`;
+  const [idList, setIdList] = useState(() => {
+    const savedIdList = localStorage.getItem("idList");
+    return savedIdList ? JSON.parse(savedIdList) : [];
+  });
 
-      // Initialize a new Audio object if it doesn't exist yet
-      if (!audioPlayer.current) {
-        audioPlayer.current = new Audio(audioUrl);
-        console.warn(audioPlayer.current);
-      } else {
-        audioPlayer.current.src = audioUrl; // Update the audio src if the Audio object already exists
-        console.log(audioPlayer.current);
-      }
-
-      // Play the audio stream
-      audioPlayer.current.play();
-      console.log("Playing Musqiiic");
+  const handleStorageChange = (event) => {
+    console.log("Detected localStorage change:", event);
+    if (event.key === "idList") {
+      const updatedIdList = JSON.parse(event.newValue);
+      setIdList(updatedIdList); // Update state based on localStorage change
+      console.log(
+        "Detected localStorage change, updated ID list:",
+        updatedIdList
+      );
     }
-  }, [playlistIndex, playlist]);
+  };
 
-  // Listen for song finish event and update playlistIndex
-  useEffect(() => {
-    if (audioPlayer.current) {
-      const handleSongEnd = () => {
-        if (playlistIndex < playlist.length - 1) {
-          dispatch(setPlaylistIndex(playlistIndex + 1));
-        }
-      };
-
-      audioPlayer.current.addEventListener('ended', handleSongEnd);
-
-      return () => {
-        audioPlayer.current.removeEventListener('ended', handleSongEnd);
-      };
-    }
-  }, [playlistIndex, playlist.length, dispatch]);
+  window.addEventListener("storage", handleStorageChange);
 
   const playPauseButton = () => {
-    if (audioPlayer.current.paused) {
-      audioPlayer.current.play();
-    } else {
-      audioPlayer.current.pause();
+    if (true === false) {
+      if (audioPlayer.current.paused) {
+        audioPlayer.current.play();
+      } else {
+        audioPlayer.current.pause();
+      }
+      setIsPlaying((prevState) => !prevState);
     }
-    setIsPlaying((prevState) => !prevState);
   };
 
   const shuffleButton = () => {
@@ -88,14 +64,12 @@ const AudioPlayer = () => {
   const skipTrack = () => {
     if (playlistIndex + 1 < playlist.length) {
       audioPlayer.current.pause();
-      dispatch(setPlaylistIndex(playlistIndex + 1));
     }
   };
 
   const redoTrack = () => {
     if (playlistIndex > 0) {
       audioPlayer.current.pause();
-      dispatch(setPlaylistIndex(playlistIndex - 1));
     }
   };
 
@@ -138,7 +112,6 @@ const AudioPlayer = () => {
     }
   };
 
-
   return (
     <div>
       <div className="fixed bottom-0 left-0 z-50 grid w-full h-24 grid-cols-1 px-4 bg-base-300 border-t-2 border-primary-content md:grid-cols-3">
@@ -164,20 +137,35 @@ const AudioPlayer = () => {
         </div>
         <div className="flex items-center w-full">
           <div>
-
-
             <div className="flex items-center justify-center mx-auto mb-1 self-end">
-              <button data-tooltip-target="tooltip-expand" type="button" onClick={"sound_modal_3.showModal()"}
-                className="p-2.5 mr-8 md:hidden group rounded-full hover:bg-gray-100 me-1 dark:hover:bg-gray-600">
-                <Icon icon="streamline:volume-level-high-solid" className="text-primary" />
+              <button
+                data-tooltip-target="tooltip-expand"
+                type="button"
+                onClick={() =>
+                  document.getElementById("sound_modal_3").showModal()
+                }
+                className="p-2.5 mr-8 md:hidden group rounded-full hover:bg-gray-100 me-1 dark:hover:bg-gray-600"
+              >
+                <Icon
+                  icon="streamline:volume-level-high-solid"
+                  className="text-primary"
+                />
                 <span className="sr-only">Adjust Volume</span>
               </button>
               <dialog id="sound_modal_1" className="modal">
-                <div className="absolute modal-box w-5 left-4 bottom-8 p-0 m-0 rounded-sm"
-                  style={{ height: '136px-lr' }}
+                <div
+                  className="absolute modal-box w-5 left-4 bottom-8 p-0 m-0 rounded-sm"
+                  style={{ height: "136px-lr" }}
                 >
-                  <input type="range" min="0" max="1" step="0.1" orient="vertical" className="translate-y-1"
-                    style={{ writingMode: 'vertical-lr', direction: 'rtl' }} />
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    orient="vertical"
+                    className="translate-y-1"
+                    style={{ writingMode: "vertical-lr", direction: "rtl" }}
+                  />
                 </div>
                 <form method="dialog" className="modal-backdrop">
                   <button>close</button>
@@ -187,7 +175,13 @@ const AudioPlayer = () => {
               <dialog id="sound_modal_3" className="modal">
                 <div className="absolute bottom-28 modal-box flex items-center gap-2 p-2 rounded-lg w-10/12">
                   <Icon icon="streamline:volume-mute-solid" />
-                  <input type="range" min="0" max="1" step="0.01" className="range" />
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    className="range"
+                  />
                   <Icon icon="streamline:volume-level-high-solid" />
                 </div>
                 <form method="dialog" className="modal-backdrop">
@@ -196,45 +190,79 @@ const AudioPlayer = () => {
               </dialog>
 
               <div className="tooltip" data-tip="Not Implemented">
-                <button data-tooltip-target="tooltip-shuffle" type="button"
-                  className="p-2.5 group rounded-full me-1">
-                  <Icon icon="streamline:play-list-folder-solid" className="text-error" />
+                <button
+                  data-tooltip-target="tooltip-shuffle"
+                  type="button"
+                  className="p-2.5 group rounded-full me-1"
+                >
+                  <Icon
+                    icon="streamline:play-list-folder-solid"
+                    className="text-error"
+                  />
                   <span className="sr-only">Add to Playlist</span>
                 </button>
               </div>
 
-
-              <button data-tooltip-target="tooltip-previous" type="button"
-                className="p-2.5 group rounded-full">
-                <Icon icon="streamline:button-previous-solid" className="text-primary" />
+              <button
+                data-tooltip-target="tooltip-previous"
+                type="button"
+                className="p-2.5 group rounded-full"
+              >
+                <Icon
+                  icon="streamline:button-previous-solid"
+                  className="text-primary"
+                />
                 <span className="sr-only">Previous Song</span>
               </button>
 
-
-              <button data-tooltip-target="tooltip-pause" type="button"
-                className="inline-flex items-center justify-center p-2.5 mx-2 font-medium bg-primary rounded-lg">
-                <Icon icon='streamline:button-play-solid' prout='streamline:button-pause-2-solid'
-                  className="text-primary-content" />
+              <button
+                data-tooltip-target="tooltip-pause"
+                type="button"
+                className="inline-flex items-center justify-center p-2.5 mx-2 font-medium bg-primary rounded-lg"
+                onClick={playPauseButton()}
+              >
+                <Icon
+                  icon="streamline:button-play-solid"
+                  prout="streamline:button-pause-2-solid"
+                  className="text-primary-content"
+                />
                 <span className="sr-only">Pause Song</span>
               </button>
 
-              <button data-tooltip-target="tooltip-next" type="button"
-                className="p-2.5 group rounded-full">
-                <Icon icon="streamline:button-next-solid" className="text-primary" />
+              <button
+                data-tooltip-target="tooltip-next"
+                type="button"
+                className="p-2.5 group rounded-full"
+              >
+                <Icon
+                  icon="streamline:button-next-solid"
+                  className="text-primary"
+                />
                 <span className="sr-only">Next Song</span>
               </button>
 
               <div className="tooltip" data-tip="Not Implemented">
-                <button data-tooltip-target="tooltip-restart" type="button"
-                  className="p-2.5 group rounded-full ">
-                  <Icon icon="streamline:hearts-symbol-solid" className="text-error" />
+                <button
+                  data-tooltip-target="tooltip-restart"
+                  type="button"
+                  className="p-2.5 group rounded-full "
+                >
+                  <Icon
+                    icon="streamline:hearts-symbol-solid"
+                    className="text-error"
+                  />
                   <span className="sr-only">Add to Favorites</span>
                 </button>
               </div>
 
-
-              <button data-tooltip-target="tooltip-volume" type="button" onClick={"queue_modal.showModal()"}
-                className="p-2.5 ml-8 md:hidden group rounded-lg bg-base-100 hover:bg-gray-100 dark:hover:bg-gray-600">
+              <button
+                data-tooltip-target="tooltip-volume"
+                type="button"
+                onClick={() =>
+                  document.getElementById("queue_modal").showModal()
+                }
+                className="p-2.5 ml-8 md:hidden group rounded-lg bg-base-100 hover:bg-gray-100 dark:hover:bg-gray-600"
+              >
                 <Icon icon="ph:playlist-bold" className="text-primary" />
                 playlist.length
                 <span className="sr-only">Open Queue</span>
@@ -243,21 +271,29 @@ const AudioPlayer = () => {
                 <div className="modal-box h-96 w-96 relative overflow-y-auto">
                   <h3 className="font-bold text-lg">My Queue</h3>
                   <div>
-                    <div>
-
-                    </div>
+                    <div></div>
                   </div>
                   <div className="flex justify-center gap-2 z-10 sticky bottom-0">
-                    <button data-tooltip-target="tooltip-captions"
+                    <button
+                      data-tooltip-target="tooltip-captions"
                       type="button"
-                      className="btn w-1/2 inline-block p-0 rounded-lg text-error z-20">
-                      <Icon icon="streamline:shuffle-solid" className="text-error" />
+                      className="btn w-1/2 inline-block p-0 rounded-lg text-error z-20"
+                    >
+                      <Icon
+                        icon="streamline:shuffle-solid"
+                        className="text-error"
+                      />
                       Shuffle Tracks
                     </button>
-                    <button data-tooltip-target="tooltip-captions" type="button"
-                      className="btn btn-success w-1/2 inline-block p-0 rounded-lg z-20">
-                      <Icon icon="streamline:arrow-infinite-loop-solid"
-                        className="text-primary" />
+                    <button
+                      data-tooltip-target="tooltip-captions"
+                      type="button"
+                      className="btn btn-success w-1/2 inline-block p-0 rounded-lg z-20"
+                    >
+                      <Icon
+                        icon="streamline:arrow-infinite-loop-solid"
+                        className="text-primary"
+                      />
                       Loop Tracks
                     </button>
                   </div>
@@ -270,17 +306,17 @@ const AudioPlayer = () => {
 
             <div className="flex items-center justify-between space-x-2 rtl:space-x-reverse">
               <span className="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
-                new Date(currentTime * 1000).toISOString().substring(14, 19)</span>
+                new Date(currentTime * 1000).toISOString().substring(14, 19)
+              </span>
               <div className="w-full bg-base-100 rounded-full h-1.5">
-                <div className="bg-primary h-1.5 rounded-full">
-                </div>
+                <div className="bg-primary h-1.5 rounded-full"></div>
 
                 <span className="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
-                  new Date(trackData.duration * 1000).toISOString().substring(14, 19)</span>
+                  new Date(trackData.duration *
+                  1000).toISOString().substring(14, 19)
+                </span>
               </div>
-
             </div>
-
           </div>
           <div className="items-center justify-center hidden ms-auto md:flex">
             <div className="tooltip" data-tip="Not Implemented">
@@ -303,7 +339,9 @@ const AudioPlayer = () => {
             </button>
 
             <button
-              onClick={"sound_modal_3.showModal()"}
+              onClick={() =>
+                document.getElementById("sound_modal_3").showModal()
+              }
               className="p-2.5 group rounded-full hover:bg-gray-100 me-1  dark:hover:bg-gray-600"
             >
               <Icon
@@ -316,7 +354,7 @@ const AudioPlayer = () => {
             <dialog id="sound_modal_2" className="modal">
               <div
                 className="absolute modal-box w-3 right-12 bottom-8 p-0 m-0 rounded-sm"
-                style={{ height: '136px-lr' }}
+                style={{ height: "136px-lr" }}
               >
                 <input
                   type="range"
@@ -325,7 +363,7 @@ const AudioPlayer = () => {
                   step="0.1"
                   orient="vertical"
                   className="translate-y-1"
-                  style={{ writingMode: 'vertical-lr', direction: 'rtl' }}
+                  style={{ writingMode: "vertical-lr", direction: "rtl" }}
                 />
               </div>
               <form method="dialog" className="modal-backdrop">
@@ -334,7 +372,7 @@ const AudioPlayer = () => {
             </dialog>
 
             <button
-              onClick={"queue_modal.showModal()"}
+              onClick={() => document.getElementById("queue_modal").showModal()}
               className="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 dark:hover:bg-gray-600 flex"
             >
               <Icon icon="ph:playlist-bold" className="text-primary" />

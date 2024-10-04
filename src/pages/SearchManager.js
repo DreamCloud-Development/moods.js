@@ -22,7 +22,6 @@ function UserProfile() {
           throw new Error(`Network response was not ok ${query}`);
         }
         const searchResult = await searchResponse.json();
-        console.log(searchResult);
         setSearchData(searchResult);
 
       } catch (err) {
