@@ -7,7 +7,7 @@ import ThemeDropdown from "./ThemeDropdown";
 
 function Navbar() {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 fixed w-full z-20 top-0 start-0">
       <div className="navbar-start">
         <Link to="/" className="btn btn-ghost text-xl font-black gap-px">
             M

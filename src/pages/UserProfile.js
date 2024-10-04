@@ -50,11 +50,11 @@ function UserProfile() {
     <div>
       {/* Cover Section */}
       <div
-        className="w-full h-72 bg-center relative bg-cover bg-no-repeat"
+        className="w-full h-72 bg-center relative bg-cover bg-no-repeat rounded-xl border-2 border-primary-content"
         style={{ backgroundImage: `url(${userData.data.cover_photo['2000x']})` }}
       >
         <img
-          className="absolute h-32 w-32 rounded-full bottom-0 left-10 translate-y-5"
+          className="absolute h-32 w-32 rounded-full bottom-0 left-10 translate-y-5 border-2 border-primary-content"
           src={userData.data.profile_picture['480x480']}
           alt="User Audius Banner"
         />
@@ -74,13 +74,13 @@ function UserProfile() {
         <h2 className="absolute bottom-3 left-44 text-md lg:text-xl glass p-1 rounded-lg">
           {userData.data.follower_count} Followers - {userData.data.track_count} Tracks
         </h2>
-        <h3 className="absolute bottom-64 lg:bottom-2 right-1 lg:right-2 text-sm lg:text-md bg-primary p-1 rounded-lg text-primary-content">
+        <h3 className="absolute bottom-64 lg:bottom-2 right-1 lg:right-2 text-sm lg:text-md bg-primary p-1 rounded-lg text-primary-content flex">
           <Icon icon="streamline:sign-hashtag-solid" /> {userData.data.id}
         </h3>
       </div>
 
       <div className="card my-8">
-        <h2 className="card-title mx-12">Bio</h2>
+        <h2 className="card-title mx-12">👋 About Me</h2>
         <p
           className="mx-12"
           style={{ whiteSpace: 'pre' }}
@@ -89,6 +89,7 @@ function UserProfile() {
       </div>
 
       <div>
+      <h2 className="card-title mx-12">💿 Tracks</h2>
       {trackData.data.map((item, index) => (
         <React.Fragment key={index}>
            <SongCard trackParsedData={item}/>
@@ -103,9 +104,9 @@ function UserProfile() {
         ))*/}
       </div>
 
-      <div className="collapse bg-base-200 border-base-300 m-4 w-auto mt-8">
+      <div className="collapse bg-base-200 border border-base-300 w-auto mt-8">
         <input type="checkbox" />
-        <div className="collapse-title text-xl font-medium">
+        <div className="collapse-title text-xl font-medium flex">
         <Icon icon="ph:file-code-fill" />Developer request response</div>
         <div className="collapse-content m-2">
           <h1>IdData for handle: {handle}</h1>
