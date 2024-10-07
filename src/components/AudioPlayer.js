@@ -4,12 +4,13 @@ import React, {
   useRef,
   useMemo,
   useCallback,
+  useContext,
 } from "react";
 import { Icon } from "@iconify/react";
-import Context from '../Context';
+import { MusicContext } from '../context/MusicContext';
 
 const AudioPlayer = () => {
-  const { playlist, playlistIndex, setPlaylistIndex } = useState("");
+  const { musicList, currentIndex, setCurrentIndex } = useContext(MusicContext);
 
   const [trackData, setTrackData] = useState("");
   const [streamData, setMediaData] = useState(null);
@@ -22,25 +23,39 @@ const AudioPlayer = () => {
   const [currentVolume, setCurrentVolume] = useState(1);
 
   const audioPlayer = useRef(null);
+  
+  useEffect(() => {
+    const fetchData  = async (trackId) => {
+      try {
+        // Fetch ID data
+        const trackResponse = await fetch(`https://audius-discovery-6.cultur3stake.com/v1/tracks/${trackId}?app_name=MOODS-TM`);
+        if (!trackResponse.ok) {
+          console.error(`Error fetching ID data: ${trackResponse.status} ${trackResponse.statusText}`);
+          console.warn(trackId);
+        }
+        const trackResult = await trackResponse.json();
+        return trackResult;
 
-  const [idList, setIdList] = useState(() => {
-    const savedIdList = localStorage.getItem("idList");
-    return savedIdList ? JSON.parse(savedIdList) : [];
-  });
+      } catch (err) {
+        console.error(err.message);
+        console.warn(trackId);
+      }
+    };
 
-  const handleStorageChange = (event) => {
-    console.log("Detected localStorage change:", event);
-    if (event.key === "idList") {
-      const updatedIdList = JSON.parse(event.newValue);
-      setIdList(updatedIdList); // Update state based on localStorage change
-      console.log(
-        "Detected localStorage change, updated ID list:",
-        updatedIdList
-      );
+    if (currentIndex === 0) {
+      // Load dummy data
+      setTrackData({ title: 'Dummy Song', artist: 'Dummy Artist' });
+      console.log("Dummy data loaded for");
+      console.log(currentIndex);
+      console.log(musicList);
+    } else {
+      // Load data from API using the song ID at the currentIndex
+      fetchData(musicList[currentIndex - 1])
+      .then((songData) => setTrackData(songData));
+      console.log("Song Updated and loaded")
+
     }
-  };
-
-  window.addEventListener("storage", handleStorageChange);
+  }, [musicList, currentIndex]);
 
   const playPauseButton = () => {
     if (true === false) {
@@ -62,13 +77,13 @@ const AudioPlayer = () => {
   };
 
   const skipTrack = () => {
-    if (playlistIndex + 1 < playlist.length) {
+    if (currentIndex + 1 < musicList.length) {
       audioPlayer.current.pause();
     }
   };
 
   const redoTrack = () => {
-    if (playlistIndex > 0) {
+    if (currentIndex > 0) {
       audioPlayer.current.pause();
     }
   };

@@ -1,11 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import { MusicProvider } from './context/MusicContext';
+
 import HomePage from "./pages/HomePage";
 import InfoPage from "./pages/InfoPage";
 import SearchManager from "./pages/SearchManager";
 import UserProfile from "./pages/UserProfile";
 import TrackPage from "./pages/TrackPage"
-
 import Loading from "./pages/Loading";
 
 import Navbar from "./components/Navbar";
@@ -14,8 +16,9 @@ import AudioPlayer from "./components/AudioPlayer";
 
 function App() {
   return (
+    <MusicProvider>
     <Router>
-      
+    
       <Navbar />
       <div className="container mx-2 sm:mx-auto mt-32">
       <Routes>
@@ -31,6 +34,7 @@ function App() {
       <AudioPlayer />
       <Footer />
     </Router>
+    </MusicProvider>
   );
 }
 
