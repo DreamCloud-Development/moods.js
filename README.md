@@ -1,3 +1,5 @@
+> [!WARNING]
+> **DEPRECATION NOTICE**: The Waudius Nuxt core is discontinued in favor of react, for a porper implementation of the Audius SDK.
 # 🎶 MOODS (or Waudius +)
 Waudius is a replica of Audius, built with the Audius core but with a separated frontend, so it's yours now
 
