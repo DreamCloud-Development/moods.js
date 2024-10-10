@@ -44,6 +44,7 @@
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.11",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13"
+    "tailwindcss": "^3.4.13",
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7"
   }
 }
