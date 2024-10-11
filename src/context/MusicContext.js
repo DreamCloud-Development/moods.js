@@ -5,11 +5,12 @@ export const MusicContext = createContext();
 export const MusicProvider = ({ children }) => {
   const [musicList, setMusicList] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  let [theAudioPlayer] = useState(new Audio);
 
   const addToMusicList = (value) => {
     if (musicList.length === 0) {
       setMusicList([value]);
-      setCurrentIndex(1);
+      setCurrentIndex(-1);
     } else {
       setMusicList([...musicList, value]);
     }
@@ -22,6 +23,7 @@ export const MusicProvider = ({ children }) => {
         currentIndex,
         setCurrentIndex,
         addToMusicList,
+        theAudioPlayer,
       }}
     >
       {children}

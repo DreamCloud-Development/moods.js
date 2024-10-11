@@ -12,11 +12,11 @@ import dummyTrackData from "../context/dummyTrackData";
 
 const AudioPlayer = () => {
   const { musicList, currentIndex, setCurrentIndex } = useContext(MusicContext);
-  let { audioPlayer } = useContext(MusicContext);
+  let theAudioPlayer = useContext(MusicContext);
 
   const [trackData, setTrackData] = useState(dummyTrackData);
   //const [streamData, setMediaData] = useState(null);
-  const [listData, setBulkTrackData] = useState(null);
+  //const [listData, setBulkTrackData] = useState(null);
   const [isShuffled, setIsShuffled] = useState(false);
   const [isLooped, setIsLooped] = useState(false);
   const [musicBarWidth, setMusicBarWidth] = useState(0);
@@ -44,39 +44,40 @@ const AudioPlayer = () => {
       }
     };
     // eslint-disable-next-line
-    if (currentIndex == !0) {
+    if (currentIndex === -1) {
       // Load data from API using the song ID at the currentIndex
-      fetchData(musicList[currentIndex - 1]).then((songData) =>
-        setTrackData(songData)
-      );
+      fetchData(musicList[0])
+      .then((songData) => setTrackData(songData));
       console.log("Song Updated and loaded");
-      updateAudio(musicList[currentIndex - 1], audioPlayer);
+      updateAudio(musicList[0], theAudioPlayer);
+      setCurrentIndex(1)
     }
-  }, [musicList, currentIndex]);
+  }, [musicList, currentIndex, theAudioPlayer]);
 
   const updateAudio = (trackId) => {
-    console.log(audioPlayer);
-    audioPlayer.src = `https://audius-discovery-6.cultur3stake.com/v1/tracks/${trackId}/stream?app_name=MOODS-TM`;
-    audioPlayer.addEventListener('timeupdate', updateMusicBar)
-    audioPlayer.volume = currentVolume
-    audioPlayer.play();
-    console.log(audioPlayer); 
+    theAudioPlayer[0] = new Audio(`https://audius-discovery-6.cultur3stake.com/v1/tracks/${trackId}/stream?app_name=MOODS-TM`);
+    theAudioPlayer[0].addEventListener('timeupdate', updateMusicBar);
+    theAudioPlayer[0].volume = currentVolume;
+    theAudioPlayer[0].currentTime = 0;
+    theAudioPlayer[0].play();
+    setupMediaSession(trackData);
+    return theAudioPlayer;
   };
 
   const updateAudioPlayer = (trackId) => {
   };
 
   const playPauseButton = () => {
-    console.log(audioPlayer);
-    if (audioPlayer.paused) {
-        audioPlayer.play();
+    console.log(theAudioPlayer)
+    if (theAudioPlayer['theAudioPlayer'][0].paused) {
+      theAudioPlayer['theAudioPlayer'][0].play();
     } else {
-        audioPlayer.pause();
+      theAudioPlayer['theAudioPlayer'][0].pause();
     }
   };
 
   const updateMusicBar = () => {
-    setCurrentTime(audioPlayer.currentTime);
+    setCurrentTime(theAudioPlayer[0].currentTime);
   };
 
   const shuffleButton = () => {
@@ -100,22 +101,22 @@ const AudioPlayer = () => {
   };
 
   const updateCurrentVolume = () => {
-    audioPlayer.volume = currentVolume;
+    theAudioPlayer[0].volume = currentVolume;
   };
 
   const setupMediaSession = (superTrackData) => {
     if (navigator.mediaSession) {
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: superTrackData.title,
-        artist: `${superTrackData.user.name} on MOOD™`,
+        title: superTrackData.data.title,
+        artist: `${superTrackData.data.user.name} on MOOD™`,
         artwork: [
           {
-            src: superTrackData.artwork["480x480"],
+            src: superTrackData.data.artwork["480x480"],
             sizes: "96x96",
             type: "image/png",
           },
           {
-            src: superTrackData.artwork["480x480"],
+            src: superTrackData.data.artwork["480x480"],
             sizes: "256x256",
             type: "image/png",
           },
@@ -123,10 +124,10 @@ const AudioPlayer = () => {
       });
 
       navigator.mediaSession.setActionHandler("play", () => {
-        audioPlayer.current.play();
+        theAudioPlayer[0].play();
       });
       navigator.mediaSession.setActionHandler("pause", () => {
-        audioPlayer.current.pause();
+        theAudioPlayer[0].current.pause();
       });
 
       navigator.mediaSession.setActionHandler("previoustrack", () => {
@@ -161,7 +162,7 @@ const AudioPlayer = () => {
             </span>
           </div>
         </div>
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full flex-col">
           <div className="flex items-center justify-center mx-auto mb-1 flex-row pt-4">
             <button
               data-tooltip-target="tooltip-expand"
@@ -262,6 +263,9 @@ const AudioPlayer = () => {
               data-tooltip-target="tooltip-next"
               type="button"
               className="p-2.5 group rounded-full"
+              onClick={() =>
+                skipTrack()
+              }
             >
               <Icon
                 icon="streamline:button-next-solid"
@@ -275,6 +279,7 @@ const AudioPlayer = () => {
                 data-tooltip-target="tooltip-restart"
                 type="button"
                 className="p-2.5 group rounded-full "
+
               >
                 <Icon
                   icon="streamline:hearts-symbol-solid"
@@ -291,7 +296,7 @@ const AudioPlayer = () => {
               className="p-2.5 ml-8 md:hidden group rounded-lg bg-base-100 hover:bg-gray-100 dark:hover:bg-gray-600"
             >
               <Icon icon="ph:playlist-bold" className="text-primary" />
-              playlist.length
+              {musicList.length}
               <span className="sr-only">Open Queue</span>
             </button>
             <dialog id="queue_modal" className="modal">
@@ -329,21 +334,21 @@ const AudioPlayer = () => {
                 <button>close</button>
               </form>
             </dialog>
-</div>
-            <div className="flex items-center justify-between space-x-2 rtl:space-x-reverse">
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
-                "new Date(currentTime * 1000).toISOString().substring(14, 19)"
-              </span>
-              <div className="w-full bg-base-100 rounded-full h-1.5">
-                <div className="bg-primary h-1.5 rounded-full"></div>s
-              </div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
-                {new Date(trackData.data.duration * 1000)
-                  .toISOString()
-                  .substring(14, 19)}
-              </span>
+          </div>
+          <div className="flex items-center justify-between space-x-2 rtl:space-x-reverse w-full">
+            <span className="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
+              {new Date(currentTime * 1000).toISOString().substring(14, 19)}
+            </span>
+            <div className="w-full bg-base-100 rounded-full h-1.5">
+              <div className="bg-primary h-1.5 rounded-full"></div>
             </div>
-          
+            <span className="text-sm font-medium text-gray-500 dark:text-gray-400 inline-flex">
+              {new Date(trackData.data.duration * 1000)
+                .toISOString()
+                .substring(14, 19)}
+            </span>
+          </div>
+
         </div>
         <div className="items-center justify-center hidden ms-auto md:flex">
           <div className="tooltip" data-tip="Not Implemented">
@@ -351,13 +356,18 @@ const AudioPlayer = () => {
               data-tooltip-target="tooltip-playlist"
               type="button"
               className="p-2.5 group rounded-full hover:bg-gray-100 me-1 dark:hover:bg-gray-600"
+              onClick={() =>
+                shuffleButton()
+              }
             >
               <Icon icon="streamline:shuffle-solid" className="text-error" />
               <span className="sr-only">Shuffle Tracks</span>
             </button>
           </div>
 
-          <button className="p-2.5 group rounded-full hover:bg-gray-100 me-1  dark:hover:bg-gray-600">
+          <button className="p-2.5 group rounded-full hover:bg-gray-100 me-1  dark:hover:bg-gray-600" onClick={() =>
+            loopButton()
+          }>
             <Icon
               icon="streamline:arrow-infinite-loop-solid"
               className="text-secondary"
@@ -401,7 +411,7 @@ const AudioPlayer = () => {
             className="p-2.5 group rounded-lg bg-base-100 hover:bg-gray-100 dark:hover:bg-gray-600 flex"
           >
             <Icon icon="ph:playlist-bold" className="text-primary" />
-            pl
+            {musicList.length}
             <span className="sr-only">Open Queue</span>
           </button>
         </div>
