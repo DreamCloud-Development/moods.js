@@ -1,59 +1,19 @@
 {
   "data": {
     "artwork": {
-      "150x150": "https://audius-content-5.cultur3stake.com/content/01J05JMR5SZ99BCY1F5NAWC5B4/150x150.jpg",
-      "480x480": "https://audius-content-5.cultur3stake.com/content/01J05JMR5SZ99BCY1F5NAWC5B4/480x480.jpg",
-      "1000x1000": "https://audius-content-5.cultur3stake.com/content/01J05JMR5SZ99BCY1F5NAWC5B4/1000x1000.jpg"
+      "480x480": "https://github.com/DreamCloud-Development.png"
     },
     "description": "",
-    "genre": "Experimental",
     "id": "goZY5l",
-    "track_cid": "baeaaaiqsebgy5u7flisqrmostp3cqy3d5dp2ofm7lsickftxygb3gt2cdiu7q",
-    "preview_cid": null,
-    "orig_file_cid": "baeaaaiqsedxocskp4xvulknlp57qtlvspsswmach3jcofyfxlzptrvffwgrd2",
-    "orig_filename": "1 Hour Dream Speed Run Music.mp3",
-    "is_original_available": false,
     "mood": "Peaceful",
     "release_date": "2024-06-12 06:41:31",
-    "remix_of": {
-      "tracks": null
-    },
-    "repost_count": 0,
-    "favorite_count": 0,
-    "comment_count": 0,
     "tags": "meme,dream",
-    "title": "1 Hour Dream Speed Run Music",
+    "title": "No Track Playing",
     "user": {
-      "album_count": 1,
-      "artist_pick_track_id": null,
-      "bio": "DJ, EDM Maker an Minecraft Dev.\nLearn more @ https://f.dreamclouds.fr\nJoin my discord @ https://dsc.gg/drmcld",
-      "cover_photo": {
-        "640x": "https://audius-creator-1.theblueprint.xyz/content/QmRG69SuDebed1XmMDhziMgkSvzoERUYUrUyzsGX4ZzAbH/640x.jpg",
-        "2000x": "https://audius-creator-1.theblueprint.xyz/content/QmRG69SuDebed1XmMDhziMgkSvzoERUYUrUyzsGX4ZzAbH/2000x.jpg"
-      },
-      "followee_count": 7,
-      "follower_count": 0,
       "handle": "bydreamcloud",
       "id": "aY1Alz",
-      "is_verified": false,
-      "twitter_handle": "funasititen",
-      "instagram_handle": "fdreamcloud",
-      "tiktok_handle": null,
-      "verified_with_twitter": false,
-      "verified_with_instagram": false,
-      "verified_with_tiktok": false,
-      "website": "https://f.dreamclouds.fr",
-      "donation": "https://paypal.me/funasitien",
-      "location": "France",
-      "name": "Funasitien DreamCloud",
-      "playlist_count": 1,
-      "profile_picture": {
-        "150x150": "https://blockchange-audius-content-03.bdnodes.net/content/Qmf6HvMVHAggP2a1f1WBJ4EQKt7u7oLHwCPSCHSGJHM2z6/150x150.jpg",
-        "480x480": "https://blockchange-audius-content-03.bdnodes.net/content/Qmf6HvMVHAggP2a1f1WBJ4EQKt7u7oLHwCPSCHSGJHM2z6/480x480.jpg",
-        "1000x1000": "https://blockchange-audius-content-03.bdnodes.net/content/Qmf6HvMVHAggP2a1f1WBJ4EQKt7u7oLHwCPSCHSGJHM2z6/1000x1000.jpg"
-      }
+      "name": "Maybe you should choose one?"
     },
-    "duration": 3829,
-    "is_downloadable": false
+    "duration": 3829
   }
 }
