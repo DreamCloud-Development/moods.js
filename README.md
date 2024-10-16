@@ -1,3 +1,7 @@
 # WAUDIUS v2
-> [!INFO]
+> [!NOTE]
 > ddaz
+
+
+> [!CAUTION]
+> dkzoa
